@@ -6,8 +6,8 @@ namespace Cobra_Radical
 {
     public partial class Window : Form
     {
-        private const int WIDTH = 50;
-        private const int HEIGHT = 50;
+        private const int WIDTH = 30;
+        private const int HEIGHT = 30;
         private int SCORE_INT;
         private int high_SCORE_INT;
         private const string SCORE_STRING = "Pontuação: {0}";
@@ -23,7 +23,7 @@ namespace Cobra_Radical
             m_GameField = new Bitmap(WIDTH * Piece.SIDE, HEIGHT * Piece.SIDE);
             m_GameGraphics = Graphics.FromImage(m_GameField); m_GameGraphics.PageUnit = GraphicsUnit.Pixel;
             ClientSize = new Size(m_GameField.Width, m_GameField.Height + m_RestartBtn.Height);
-            m_Game = new Game(WIDTH, HEIGHT*2);
+            m_Game = new Game(WIDTH, HEIGHT);
             m_Timer.Start();
         }
 

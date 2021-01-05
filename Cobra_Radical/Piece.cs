@@ -4,7 +4,7 @@ namespace Cobra_Radical
 {
     public class Piece
     {
-        public static int SIDE = 10;
+        public static int SIDE = 20;
         private readonly Brush m_Color;
 
         public int X { get; set; }
