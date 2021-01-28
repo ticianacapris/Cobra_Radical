@@ -40,6 +40,8 @@ namespace SharpGL_CG_TDM
         //-------------------------------
         public bool LerFicheiro(string ficheiro)
         {
+            Console.WriteLine("lerFicheiro", ficheiro);
+
             // Formato OBJ
             // codigo de leitura do ficheiro!!!
             // Abrir o Ficheiro
@@ -55,7 +57,7 @@ namespace SharpGL_CG_TDM
                     while ((linha = sr.ReadLine()) != null)
                     {
                         Console.WriteLine(linha);
-                        // 
+
                         String[] Dados = linha.Split(' ');
                         if (Dados.Length != 0)
                         {
