@@ -21,12 +21,23 @@ namespace SharpGL_CG_TDM
 
         public Modelo()
         {
-            Escala = 1.0f;
+            Escala = 1f;
             LV = new List<Vertice>();
             LF = new List<Face>();
             LT = new List<Triangulo>();
             TX = TY = TZ = 0;
         }
+
+        public void setScale(double novaEscalaX, double novaEscalaY, double novaEscalaZ, OpenGL gl){
+            System.Diagnostics.Debug.WriteLine("set scale");
+
+            gl.Translate(10f, 10f, 10f);
+            gl.Scale(novaEscalaX, novaEscalaY, novaEscalaZ);
+
+            this.Desenhar(gl);
+          
+        }
+
         public void Translacao(double _tx, double _ty, double _tz)
         {
             TX += _tx;
@@ -71,9 +82,12 @@ namespace SharpGL_CG_TDM
                             switch(Dados[0])
                             {
                                 case "v": Console.WriteLine("Tenho um vertice");                                   
-                                    double X = Convert.ToDouble (Dados[1]);
-                                    double Y = Convert.ToDouble (Dados[2]);
-                                    double Z = Convert.ToDouble(Dados[3]);
+
+                                    double X = Convert.ToDouble(Dados[1], System.Globalization.CultureInfo.InvariantCulture);
+                                    double Y = Convert.ToDouble(Dados[2], System.Globalization.CultureInfo.InvariantCulture);
+                                    double Z = Convert.ToDouble(Dados[3], System.Globalization.CultureInfo.InvariantCulture);
+
+
                                     Vertice V = new Vertice(X, Y, Z);
                                     LV.Add(V);
                                     if (Primeira_Passagem)
@@ -108,6 +122,12 @@ namespace SharpGL_CG_TDM
                                     LF.Add(F);
                                     break;
                                 case "#": Console.WriteLine("Nao faças nada comentário");
+
+                                    break;
+
+                                  
+
+                                    default:
                                     break;
                             }
 
@@ -132,6 +152,12 @@ namespace SharpGL_CG_TDM
         {
             if (M2.Xmin > Xmax) return false;
             if (M2.Xmax < Xmin) return false;
+            if (M2.Ymax > Ymin) return false;
+            if (M2.Ymax < Ymin) return false;
+            if (M2.Zmax > Zmin) return false;
+            if (M2.Zmax < Zmin) return false;
+
+
             //------ continuar
             return true;
         }

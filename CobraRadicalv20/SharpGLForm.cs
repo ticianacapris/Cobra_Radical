@@ -131,9 +131,9 @@ namespace SharpGL_CG_TDM
             //DesenharEixos(gl);
 
             //  Rotate around the Y axis.
-           // gl.Translate(TX, TY, TZ);
-           // gl.Rotate(rotation, 0.0f, 1.0f, 0.0f);
-           // gl.Scale(Escala, Escala, Escala);
+            gl.Translate(TX, TY, TZ);
+            gl.Rotate(rotation, 0.0f, 1.0f, 0.0f);
+            gl.Scale(Escala, Escala, Escala);
 
             DesenharEixos(gl, 1.5f);
             //  Draw a coloured pyramid.
@@ -197,7 +197,7 @@ namespace SharpGL_CG_TDM
             //  Use the 'look at' helper function to position and aim the camera.
             gl.LookAt(-1, 1, -1,
                 2, 0, 2, 
-                0, 6, 0);
+                -4, 6, -4);
             //  Set the modelview matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
         }
@@ -244,11 +244,14 @@ namespace SharpGL_CG_TDM
             */
             double Y = Convert.ToDouble(STR, System.Globalization.CultureInfo.InvariantCulture);
             Console.WriteLine("Y = " + Y);
+
+
         }
 
         private void Btn_Inverter_Escala_Click(object sender, EventArgs e)
         {
             Incremento_Escala = -Incremento_Escala;
+
         }
 
         private void Btn_Parar_Click(object sender, EventArgs e)
@@ -275,7 +278,13 @@ namespace SharpGL_CG_TDM
 
         private void Btn_Inverter_Click(object sender, EventArgs e)
         {
+
+            Console.WriteLine("invertersentifo");
             Sentido = -Sentido;
+
+
+            //Cobra.setScale(0.1, 0.1, 0.1, gl);
+
         }
 
         private void Btn_Sair_Click(object sender, EventArgs e)
@@ -285,12 +294,16 @@ namespace SharpGL_CG_TDM
 
         private void Btn_LerModelo_Click(object sender, EventArgs e)
         {
-
+            OpenGL gl = openGLControl.OpenGL;
 
             Modelo Cobra = new Modelo();
-            Cobra.LerFicheiro("..\\..\\..\\loadModelos\\cobraStartModel.obj");
-            Cobra.Mostrar();
+
+           // Cobra.LerFicheiro("C:\\Users\\pedro\\Documents\\GitHub\\Cobra_Radical\\CobraRadicalv20\\loadModelos\\cobraStartModel.obj");
+            
+            Cobra.LerFicheiro("..\\..\\loadModelos\\cobraStartModel.obj");
+
             LModelos.Add(Cobra);
+
 
 
           //  C:\Users\pedro\Documents\GitHub\Cobra_Radical\CobraRadicalv20\loadModelos\cobraStartModel.obj
