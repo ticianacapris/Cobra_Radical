@@ -16,6 +16,8 @@ namespace SharpGL_CG_TDM
     public partial class SharpGLForm : Form
     {
         Modelo Jogador;
+        Modelo Cobra;
+
         double TX, TY, TZ;
         double Escala, Incremento_Escala;
         int Sentido;
@@ -31,6 +33,9 @@ namespace SharpGL_CG_TDM
             Incremento_Escala = 0.1;
             Sentido = 2;
             Em_Movimento = true;
+
+            Cobra = new Modelo();
+
             LModelos = new List<Modelo>();
             Console.WriteLine("Passei em SharpGLForm");
 
@@ -145,13 +150,13 @@ namespace SharpGL_CG_TDM
                 M.Desenhar(gl);
 
             //  Nudge the rotation.
-            if (Em_Movimento)
+           /* if (Em_Movimento)
             {
                 rotation += Sentido;
                 Escala += Incremento_Escala;
                 if ((Escala > 8) || (Escala < 0.5f))
                     Incremento_Escala = -Incremento_Escala;
-            }
+            }*/
             //if (Escala < 0.5f)
             //    Incremento_Escala = -Incremento_Escala;
 
@@ -195,7 +200,7 @@ namespace SharpGL_CG_TDM
             //  Create a perspective transformation.
             gl.Perspective(60.0f, (double)Width / (double)Height, 0.01, 100.0);
             //  Use the 'look at' helper function to position and aim the camera.
-            gl.LookAt(-1, 1, -1,
+            gl.LookAt(-4, 4, -4,
                 2, 0, 2, 
                 -4, 6, -4);
             //  Set the modelview matrix.
@@ -222,6 +227,10 @@ namespace SharpGL_CG_TDM
         private void Btn_Aumentar_Click(object sender, EventArgs e)
         {
             Escala += 0.2;
+
+            OpenGL gl = new OpenGL();
+
+            Cobra.setScale(gl, 8, 5, 6, 3);
         }
 
         private void Btn_Diminuir_Click(object sender, EventArgs e)
@@ -296,7 +305,6 @@ namespace SharpGL_CG_TDM
         {
             OpenGL gl = openGLControl.OpenGL;
 
-            Modelo Cobra = new Modelo();
 
            // Cobra.LerFicheiro("C:\\Users\\pedro\\Documents\\GitHub\\Cobra_Radical\\CobraRadicalv20\\loadModelos\\cobraStartModel.obj");
             

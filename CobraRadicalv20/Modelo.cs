@@ -13,6 +13,7 @@ namespace SharpGL_CG_TDM
     public class Modelo
     {
         float Escala;
+        float escalaX, escalaY, escalaZ;
         List<Vertice> LV;
         List<Face> LF;
         List<Triangulo> LT;
@@ -22,20 +23,25 @@ namespace SharpGL_CG_TDM
         public Modelo()
         {
             Escala = 1f;
+            escalaX = escalaY = escalaZ = 1f;
             LV = new List<Vertice>();
             LF = new List<Face>();
             LT = new List<Triangulo>();
             TX = TY = TZ = 0;
         }
 
-        public void setScale(double novaEscalaX, double novaEscalaY, double novaEscalaZ, OpenGL gl){
+        public void setScale(OpenGL gl, float NovaEscala = 1f, float novaEscalaX = 1f, float novaEscalaY = 1f, float novaEscalaZ = 1f)
+        {
             System.Diagnostics.Debug.WriteLine("set scale");
 
-            gl.Translate(10f, 10f, 10f);
-            gl.Scale(novaEscalaX, novaEscalaY, novaEscalaZ);
+            escalaX = novaEscalaX;
+            escalaY = novaEscalaY;
+            escalaZ = novaEscalaZ;
 
-            this.Desenhar(gl);
-          
+            Escala = NovaEscala;
+
+            Console.WriteLine("", novaEscalaZ, NovaEscala);
+
         }
 
         public void Translacao(double _tx, double _ty, double _tz)
@@ -79,9 +85,10 @@ namespace SharpGL_CG_TDM
                             }
                             Console.WriteLine();
                             */
-                            switch(Dados[0])
+                            switch (Dados[0])
                             {
-                                case "v": Console.WriteLine("Tenho um vertice");                                   
+                                case "v":
+                                    Console.WriteLine("Tenho um vertice");
 
                                     double X = Convert.ToDouble(Dados[1], System.Globalization.CultureInfo.InvariantCulture);
                                     double Y = Convert.ToDouble(Dados[2], System.Globalization.CultureInfo.InvariantCulture);
@@ -109,25 +116,27 @@ namespace SharpGL_CG_TDM
                                         // Y, Z
                                     }
                                     break;
-                                case "f": Console.WriteLine("Tenho um FACE");
+                                case "f":
+                                    Console.WriteLine("Tenho um FACE");
                                     // Pode/deve ser feita uma melhoria na leitura das faces!
                                     // Neste caso só está a ler triangulos
                                     Face F = new Face();
                                     int V1 = Convert.ToInt32(Dados[1]);
                                     int V2 = Convert.ToInt32(Dados[2]);
-                                    int V3 = Convert.ToInt32(Dados[3]);                                
-                                    F.Add(LV[V1-1]);
-                                    F.Add(LV[V2-1]);
-                                    F.Add(LV[V3-1]);
+                                    int V3 = Convert.ToInt32(Dados[3]);
+                                    F.Add(LV[V1 - 1]);
+                                    F.Add(LV[V2 - 1]);
+                                    F.Add(LV[V3 - 1]);
                                     LF.Add(F);
                                     break;
-                                case "#": Console.WriteLine("Nao faças nada comentário");
+                                case "#":
+                                    Console.WriteLine("Nao faças nada comentário");
 
                                     break;
 
-                                  
 
-                                    default:
+
+                                default:
                                     break;
                             }
 
@@ -172,25 +181,26 @@ namespace SharpGL_CG_TDM
         public void DesenharArestas(OpenGL gl)
         {
             gl.Color(200, 100, 50);
-           // Debug.WriteLine("TPC : DesenharArestas");
+            // Debug.WriteLine("TPC : DesenharArestas");
         }
         //-------------------------------
         public void DesenharFaces(OpenGL gl)
         {
             gl.Color(200, 100, 50);
-            foreach(Face F in LF)
+            foreach (Face F in LF)
             {
                 F.Desenhar(gl);
-            }             
+            }
         }
         //-------------------------------
         public void Desenhar(OpenGL gl)
         {
             DesenharEnvolvente(gl);
             gl.PushMatrix();
-                gl.Translate(TX, TY, TZ);
-                DesenharFaces(gl);
-                DesenharArestas(gl);
+            gl.Translate(TX, TY, TZ);
+            DesenharFaces(gl);
+            DesenharArestas(gl);
+            gl.Scale(escalaX, escalaY, escalaZ);
             gl.PopMatrix();
         }
         //-------------------------------
@@ -203,4 +213,4 @@ namespace SharpGL_CG_TDM
             // total 12
         }
     }
-    }
+}
