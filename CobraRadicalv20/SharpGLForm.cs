@@ -227,10 +227,10 @@ namespace SharpGL_CG_TDM
         private void Btn_Aumentar_Click(object sender, EventArgs e)
         {
             Escala += 0.2;
+            OpenGL gl = openGLControl.OpenGL;
 
-            OpenGL gl = new OpenGL();
 
-            Cobra.setScale(gl, 8, 5, 6, 3);
+            Cobra.setScale(gl, 8.0f, 5f, 6f, 3f);
         }
 
         private void Btn_Diminuir_Click(object sender, EventArgs e)

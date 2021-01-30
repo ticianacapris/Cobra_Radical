@@ -194,13 +194,16 @@ namespace SharpGL_CG_TDM
         }
         //-------------------------------
         public void Desenhar(OpenGL gl)
-        {
+        { 
+            
+            gl.Scale(escalaX, escalaY, escalaZ);
+            
             DesenharEnvolvente(gl);
             gl.PushMatrix();
             gl.Translate(TX, TY, TZ);
             DesenharFaces(gl);
             DesenharArestas(gl);
-            gl.Scale(escalaX, escalaY, escalaZ);
+
             gl.PopMatrix();
         }
         //-------------------------------
