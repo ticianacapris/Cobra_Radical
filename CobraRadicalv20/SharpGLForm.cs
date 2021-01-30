@@ -64,24 +64,21 @@ namespace SharpGL_CG_TDM
 
         public void timerMovement(object source, ElapsedEventArgs e)
         {
-            
-
             switch (direcaoCobra)
             {
                 case 2:
-                    Cobra.Translacao(0, 1, 0);
+                    Cobra.Translacao(0, 0, 1);
                     break;
                 case 3:
                     Cobra.Translacao(-1, 0, 0);
                     break;
                 case 4:
-                    Cobra.Translacao(0, -1, 0);
+                    Cobra.Translacao(0, 0, -1);
                     break;
                 default:
                     Cobra.Translacao(1, 0, 0);
                     break;
             }
-
         }
 
         private void keyPress(object sender, KeyEventArgs e)
@@ -89,6 +86,18 @@ namespace SharpGL_CG_TDM
 
             switch (e.KeyCode)
             {
+                case Keys.A:
+                    direcaoCobra = 4;
+                    break;
+                case Keys.S:
+                    direcaoCobra = 3;
+                    break;
+                case Keys.D:
+                    direcaoCobra = 2;
+                    break;
+                case Keys.W:
+                    direcaoCobra = 1;
+                    break;
                 default:
                     Console.WriteLine(e.KeyCode);
                     break;
