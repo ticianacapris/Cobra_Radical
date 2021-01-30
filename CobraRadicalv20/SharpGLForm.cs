@@ -34,6 +34,7 @@ namespace SharpGL_CG_TDM
         {
             InitializeComponent();
 
+            
             this.KeyDown += new KeyEventHandler(keyPress);
 
             TX = 0;
@@ -84,29 +85,47 @@ namespace SharpGL_CG_TDM
         private void keyPress(object sender, KeyEventArgs e)
         {
 
+            Console.WriteLine(e.KeyCode);
+
+
             switch (e.KeyCode)
             {
+                case Keys.Left:
                 case Keys.A:
-                    direcaoCobra = 4;
+                    if (direcaoCobra != 2)
+                        direcaoCobra = 4;
                     break;
+                case Keys.Down:
                 case Keys.S:
-                    direcaoCobra = 3;
+                    if (direcaoCobra != 1)
+                        direcaoCobra = 3;
                     break;
+                case Keys.Right:
                 case Keys.D:
-                    direcaoCobra = 2;
+                    if (direcaoCobra != 4)
+                        direcaoCobra = 2;
                     break;
+                case Keys.Up:
                 case Keys.W:
-                    direcaoCobra = 1;
+                    if (direcaoCobra != 3)
+                        direcaoCobra = 1;
                     break;
                 default:
                     Console.WriteLine(e.KeyCode);
                     break;
             }
+        }
 
-            Console.WriteLine(e);
-            if (e.KeyCode == Keys.Enter)
+        private void button1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            switch (e.KeyCode)
             {
-                //MessageBox.Show("Enter key pressed");
+                case Keys.Down:
+                case Keys.Up:
+                case Keys.Left:
+                case Keys.Right:
+                    e.IsInputKey = true;
+                    break;
             }
         }
 
@@ -268,6 +287,9 @@ namespace SharpGL_CG_TDM
             //  Create a perspective transformation.
             gl.Perspective(60.0f, (double)Width / (double)Height, 0.01, 100.0);
             //  Use the 'look at' helper function to position and aim the camera.
+
+            Console.WriteLine(Cobra.)
+
             gl.LookAt(-4, 4, -4,
                 2, 0, 2,
                 -4, 6, -4);
