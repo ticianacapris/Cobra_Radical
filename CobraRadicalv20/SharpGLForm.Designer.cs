@@ -54,7 +54,7 @@
             this.openGLControl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.openGLControl.DrawFPS = true;
             this.openGLControl.Location = new System.Drawing.Point(0, -2);
-            this.openGLControl.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.openGLControl.Margin = new System.Windows.Forms.Padding(8);
             this.openGLControl.Name = "openGLControl";
             this.openGLControl.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
             this.openGLControl.RenderContextType = SharpGL.RenderContextType.FBO;
@@ -82,7 +82,7 @@
             this.panel1.Controls.Add(this.Btn_LerModelo);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Location = new System.Drawing.Point(1052, -2);
-            this.panel1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panel1.Margin = new System.Windows.Forms.Padding(6);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(500, 906);
             this.panel1.TabIndex = 3;
@@ -90,7 +90,7 @@
             // Btn_Parar
             // 
             this.Btn_Parar.Location = new System.Drawing.Point(56, 325);
-            this.Btn_Parar.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Btn_Parar.Margin = new System.Windows.Forms.Padding(6);
             this.Btn_Parar.Name = "Btn_Parar";
             this.Btn_Parar.Size = new System.Drawing.Size(314, 158);
             this.Btn_Parar.TabIndex = 10;
@@ -101,7 +101,7 @@
             // Btn_Inverter_Escala
             // 
             this.Btn_Inverter_Escala.Location = new System.Drawing.Point(242, 602);
-            this.Btn_Inverter_Escala.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Btn_Inverter_Escala.Margin = new System.Windows.Forms.Padding(6);
             this.Btn_Inverter_Escala.Name = "Btn_Inverter_Escala";
             this.Btn_Inverter_Escala.Size = new System.Drawing.Size(202, 56);
             this.Btn_Inverter_Escala.TabIndex = 9;
@@ -112,7 +112,7 @@
             // Btn_Experiencias
             // 
             this.Btn_Experiencias.Location = new System.Drawing.Point(325, 104);
-            this.Btn_Experiencias.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Btn_Experiencias.Margin = new System.Windows.Forms.Padding(6);
             this.Btn_Experiencias.Name = "Btn_Experiencias";
             this.Btn_Experiencias.Size = new System.Drawing.Size(150, 44);
             this.Btn_Experiencias.TabIndex = 8;
@@ -156,7 +156,7 @@
             // Btn_TX_Menos
             // 
             this.Btn_TX_Menos.Location = new System.Drawing.Point(220, 516);
-            this.Btn_TX_Menos.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Btn_TX_Menos.Margin = new System.Windows.Forms.Padding(6);
             this.Btn_TX_Menos.Name = "Btn_TX_Menos";
             this.Btn_TX_Menos.Size = new System.Drawing.Size(150, 44);
             this.Btn_TX_Menos.TabIndex = 4;
@@ -167,7 +167,7 @@
             // Btn_TX_Mais
             // 
             this.Btn_TX_Mais.Location = new System.Drawing.Point(56, 516);
-            this.Btn_TX_Mais.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Btn_TX_Mais.Margin = new System.Windows.Forms.Padding(6);
             this.Btn_TX_Mais.Name = "Btn_TX_Mais";
             this.Btn_TX_Mais.Size = new System.Drawing.Size(150, 44);
             this.Btn_TX_Mais.TabIndex = 3;
@@ -178,7 +178,7 @@
             // Btn_Sair
             // 
             this.Btn_Sair.Location = new System.Drawing.Point(20, 814);
-            this.Btn_Sair.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Btn_Sair.Margin = new System.Windows.Forms.Padding(6);
             this.Btn_Sair.Name = "Btn_Sair";
             this.Btn_Sair.Size = new System.Drawing.Size(350, 69);
             this.Btn_Sair.TabIndex = 2;
@@ -190,7 +190,7 @@
             // 
             this.Btn_LerModelo.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_LerModelo.Location = new System.Drawing.Point(18, 25);
-            this.Btn_LerModelo.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Btn_LerModelo.Margin = new System.Windows.Forms.Padding(6);
             this.Btn_LerModelo.Name = "Btn_LerModelo";
             this.Btn_LerModelo.Size = new System.Drawing.Size(457, 67);
             this.Btn_LerModelo.TabIndex = 1;
@@ -201,7 +201,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(18, 247);
-            this.button1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.button1.Margin = new System.Windows.Forms.Padding(6);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(150, 44);
             this.button1.TabIndex = 0;
@@ -216,7 +216,8 @@
             this.ClientSize = new System.Drawing.Size(1542, 903);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.openGLControl);
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "SharpGLForm";
             this.Text = "SharpGL Form";
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).EndInit();

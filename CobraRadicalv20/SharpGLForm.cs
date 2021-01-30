@@ -27,10 +27,14 @@ namespace SharpGL_CG_TDM
         int direcaoCobra;
 
         System.Timers.Timer timer;
-        
+
+
+
         public SharpGLForm()
         {
             InitializeComponent();
+
+            this.KeyDown += new KeyEventHandler(keyPress);
 
             TX = 0;
             TY = 0;
@@ -60,7 +64,7 @@ namespace SharpGL_CG_TDM
 
         public void timerMovement(object source, ElapsedEventArgs e)
         {
-            Console.WriteLine("Hello World!");
+            
 
             switch (direcaoCobra)
             {
@@ -79,6 +83,24 @@ namespace SharpGL_CG_TDM
             }
 
         }
+
+        private void keyPress(object sender, KeyEventArgs e)
+        {
+
+            switch (e.KeyCode)
+            {
+                default:
+                    Console.WriteLine(e.KeyCode);
+                    break;
+            }
+
+            Console.WriteLine(e);
+            if (e.KeyCode == Keys.Enter)
+            {
+                //MessageBox.Show("Enter key pressed");
+            }
+        }
+
 
         void DesenharFundo(OpenGL gl)
         {
