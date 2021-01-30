@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Timers;
 using System.Windows.Forms;
 using SharpGL;
 
@@ -15,7 +16,6 @@ namespace SharpGL_CG_TDM
     /// </summary>
     public partial class SharpGLForm : Form
     {
-        Modelo Jogador;
         Modelo Cobra;
 
         double TX, TY, TZ;
@@ -23,9 +23,15 @@ namespace SharpGL_CG_TDM
         int Sentido;
         List<Modelo> LModelos;
         bool Em_Movimento;
+
+        int direcaoCobra;
+
+        System.Timers.Timer timer;
+        
         public SharpGLForm()
         {
             InitializeComponent();
+
             TX = 0;
             TY = 0;
             TZ = 0;
@@ -36,10 +42,41 @@ namespace SharpGL_CG_TDM
 
             Cobra = new Modelo();
 
+            direcaoCobra = 1; //1: X+  2: Y+  3: X-  4: Y-
+
             LModelos = new List<Modelo>();
+
+            Cobra.LerFicheiro("..\\..\\loadModelos\\cobraStartModel.obj");
+            LModelos.Add(Cobra);
+
             Console.WriteLine("Passei em SharpGLForm");
 
+            timer = new System.Timers.Timer();
+            timer.Elapsed += new ElapsedEventHandler(timerMovement);
+            timer.Interval = 200;
+            timer.Enabled = true;
 
+        }
+
+        public void timerMovement(object source, ElapsedEventArgs e)
+        {
+            Console.WriteLine("Hello World!");
+
+            switch (direcaoCobra)
+            {
+                case 2:
+                    Cobra.Translacao(0, 1, 0);
+                    break;
+                case 3:
+                    Cobra.Translacao(-1, 0, 0);
+                    break;
+                case 4:
+                    Cobra.Translacao(0, -1, 0);
+                    break;
+                default:
+                    Cobra.Translacao(1, 0, 0);
+                    break;
+            }
 
         }
 
@@ -53,13 +90,13 @@ namespace SharpGL_CG_TDM
                 {
                     gl.Color(1f, 1f, 1f);
 
-                    gl.Vertex((float)j, 0, i);
-                    gl.Vertex((float)j, 0, (float)(i + 1));
-                    gl.Vertex((float)(j + 1), 0, (float)(i));
+                    gl.Vertex((float)(j - 1), 0, (i - 1));
+                    gl.Vertex((float)(j - 1), 0, (float)(i));
+                    gl.Vertex((float)(j), 0, (float)(i - 1));
 
-                    gl.Vertex((float)j, 0, (float)(i + 1));
-                    gl.Vertex((float)(j + 1), 0, (float)(i));
-                    gl.Vertex((float)(j + 1), 0, (float)(i + 1));
+                    gl.Vertex((float)(j - 1), 0, (float)(i));
+                    gl.Vertex((float)(j), 0, (float)(i - 1));
+                    gl.Vertex((float)(j), 0, (float)(i));
                 }
             }
             gl.End();
@@ -150,17 +187,17 @@ namespace SharpGL_CG_TDM
                 M.Desenhar(gl);
 
             //  Nudge the rotation.
-           /* if (Em_Movimento)
-            {
-                rotation += Sentido;
-                Escala += Incremento_Escala;
-                if ((Escala > 8) || (Escala < 0.5f))
-                    Incremento_Escala = -Incremento_Escala;
-            }*/
+            /* if (Em_Movimento)
+             {
+                 rotation += Sentido;
+                 Escala += Incremento_Escala;
+                 if ((Escala > 8) || (Escala < 0.5f))
+                     Incremento_Escala = -Incremento_Escala;
+             }*/
             //if (Escala < 0.5f)
             //    Incremento_Escala = -Incremento_Escala;
 
-           /// Console.WriteLine("Passei em openGLControl_OpenGLDraw rotation:"+ rotation+ " Escala: "+ Escala);
+            /// Console.WriteLine("Passei em openGLControl_OpenGLDraw rotation:"+ rotation+ " Escala: "+ Escala);
         }
 
         /// <summary>
@@ -201,7 +238,7 @@ namespace SharpGL_CG_TDM
             gl.Perspective(60.0f, (double)Width / (double)Height, 0.01, 100.0);
             //  Use the 'look at' helper function to position and aim the camera.
             gl.LookAt(-4, 4, -4,
-                2, 0, 2, 
+                2, 0, 2,
                 -4, 6, -4);
             //  Set the modelview matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
@@ -214,28 +251,37 @@ namespace SharpGL_CG_TDM
 
         private void Btn_TX_Mais_Click(object sender, EventArgs e)
         {
-            TX += 1.0;
+            //  TX += 1.0;
+
+            Cobra.Translacao(1, 0, 0);
         }
 
         private void Btn_TX_Menos_Click(object sender, EventArgs e)
         {
-            TX -= 1.0;
-            if (Jogador != null)
-                Jogador.Translacao(0.1, 0.0, 0.0);
+
+            Cobra.Translacao(-1, 0, 0);
+
+
+            //TX -= 1.0;
+            /*if (Jogador != null)
+                Jogador.Translacao(0.1, 0.0, 0.0);*/
         }
 
         private void Btn_Aumentar_Click(object sender, EventArgs e)
         {
-            Escala += 0.2;
+            // Escala += 0.2;
             OpenGL gl = openGLControl.OpenGL;
 
 
-            Cobra.setScale(gl, 8.0f, 5f, 6f, 3f);
+            Cobra.setScale(gl, 2f, 0f, 0f);
         }
 
         private void Btn_Diminuir_Click(object sender, EventArgs e)
         {
-            Escala -= 0.2;
+            // Escala -= 0.2;
+            OpenGL gl = openGLControl.OpenGL;
+
+            Cobra.setScale(gl, -2f, 0f, 0f);
         }
 
         private void Btn_Experiencias_Click(object sender, EventArgs e)
@@ -278,7 +324,7 @@ namespace SharpGL_CG_TDM
         private void button1_Click(object sender, EventArgs e)
         {
             Modelo Jogador = new Modelo();
-            foreach(Modelo M in LModelos)
+            foreach (Modelo M in LModelos)
                 if (Jogador.Colide(M))
                 {
 
@@ -306,16 +352,16 @@ namespace SharpGL_CG_TDM
             OpenGL gl = openGLControl.OpenGL;
 
 
-           // Cobra.LerFicheiro("C:\\Users\\pedro\\Documents\\GitHub\\Cobra_Radical\\CobraRadicalv20\\loadModelos\\cobraStartModel.obj");
-            
+            // Cobra.LerFicheiro("C:\\Users\\pedro\\Documents\\GitHub\\Cobra_Radical\\CobraRadicalv20\\loadModelos\\cobraStartModel.obj");
+
             Cobra.LerFicheiro("..\\..\\loadModelos\\cobraStartModel.obj");
 
             LModelos.Add(Cobra);
 
 
 
-          //  C:\Users\pedro\Documents\GitHub\Cobra_Radical\CobraRadicalv20\loadModelos\cobraStartModel.obj
-          //  C:\Users\pedro\Documents\GitHub\Cobra_Radical\CobraRadicalv20\bin\Debug\SharpGL_CG_TDM.exe
+            //  C:\Users\pedro\Documents\GitHub\Cobra_Radical\CobraRadicalv20\loadModelos\cobraStartModel.obj
+            //  C:\Users\pedro\Documents\GitHub\Cobra_Radical\CobraRadicalv20\bin\Debug\SharpGL_CG_TDM.exe
 
 
             //Mod.LerFicheiro("..\\..\\..\\Modelos_OBJ\\ola.obj");

@@ -30,18 +30,11 @@ namespace SharpGL_CG_TDM
             TX = TY = TZ = 0;
         }
 
-        public void setScale(OpenGL gl, float NovaEscala = 1f, float novaEscalaX = 1f, float novaEscalaY = 1f, float novaEscalaZ = 1f)
+        public void setScale(OpenGL gl, float novaEscalaX, float novaEscalaY, float novaEscalaZ)
         {
-            System.Diagnostics.Debug.WriteLine("set scale");
-
-            escalaX = novaEscalaX;
-            escalaY = novaEscalaY;
-            escalaZ = novaEscalaZ;
-
-            Escala = NovaEscala;
-
-            Console.WriteLine("", novaEscalaZ, NovaEscala);
-
+            escalaX += novaEscalaX;
+            escalaY += novaEscalaY;
+            escalaZ += novaEscalaZ;
         }
 
         public void Translacao(double _tx, double _ty, double _tz)
