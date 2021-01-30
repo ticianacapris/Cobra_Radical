@@ -1,13 +1,8 @@
-﻿using System;
+﻿using SharpGL;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Timers;
 using System.Windows.Forms;
-using SharpGL;
 
 namespace SharpGL_CG_TDM
 {
@@ -22,11 +17,20 @@ namespace SharpGL_CG_TDM
         double Escala, Incremento_Escala;
         int Sentido;
         List<Modelo> LModelos;
+        List<Modelo> Obstaculos;
+        List<Modelo> Comida;
         bool Em_Movimento;
 
         int direcaoCobra;
 
+        int fieldSize;
+
         System.Timers.Timer timer;
+        System.Timers.Timer foodTimer;
+
+        int[,] foodMatrix, obstaclesMatrix;
+
+        Random rndNumber;
 
 
 
@@ -34,7 +38,7 @@ namespace SharpGL_CG_TDM
         {
             InitializeComponent();
 
-            
+
             this.KeyDown += new KeyEventHandler(keyPress);
 
             TX = 0;
@@ -50,16 +54,62 @@ namespace SharpGL_CG_TDM
             direcaoCobra = 1; //1: X+  2: Y+  3: X-  4: Y-
 
             LModelos = new List<Modelo>();
+            Comida = new List<Modelo>();
+            Obstaculos = new List<Modelo>();
 
             Cobra.LerFicheiro("..\\..\\loadModelos\\cobraStartModel.obj");
             LModelos.Add(Cobra);
 
             Console.WriteLine("Passei em SharpGLForm");
 
+            fieldSize = 40;
+
+            foodMatrix = new int[fieldSize, fieldSize];
+            obstaclesMatrix = new int[fieldSize, fieldSize];
+
+            Console.WriteLine("init:" + fieldSize, foodMatrix);
+
             timer = new System.Timers.Timer();
             timer.Elapsed += new ElapsedEventHandler(timerMovement);
             timer.Interval = 200;
             timer.Enabled = true;
+
+            foodTimer = new System.Timers.Timer();
+            foodTimer.Elapsed += new ElapsedEventHandler(randomFoodPosition);
+            foodTimer.Interval = 4000;
+            foodTimer.Enabled = true;
+
+            rndNumber = new Random();
+
+        }
+
+        public void randomFoodPosition(object source, ElapsedEventArgs e)
+        {
+            bool ocupado = true;
+
+            while (ocupado == true)
+            {
+                int newValueX = rndNumber.Next(1, fieldSize);
+                int newValueY = rndNumber.Next(1, fieldSize);
+
+                Console.WriteLine("teste: " + newValueX, newValueY, obstaclesMatrix[newValueX, newValueY]);
+
+                if (obstaclesMatrix[newValueX, newValueY] != null)
+                {
+                    Modelo obstaculo = new Modelo();
+                    obstaculo.LerFicheiro("..\\..\\loadModelos\\cobraStartModel.obj");
+                    Obstaculos.Add(obstaculo);
+                    obstaclesMatrix[newValueX, newValueY] = 1;
+                    ocupado = false;
+                }
+
+                Console.WriteLine(Obstaculos);
+            }
+
+
+
+
+
 
         }
 
@@ -134,11 +184,14 @@ namespace SharpGL_CG_TDM
         {
             gl.Begin(OpenGL.GL_TRIANGLES);
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 40; i++)
             {
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < 40; j++)
                 {
-                    gl.Color(1f, 1f, 1f);
+                    if (j % 2 == 0 && i % 2 != 0)
+                        gl.Color(0.6f, 0.6f, 0.6f);
+                    else
+                        gl.Color(0.8f, 0.8f, 0.8f);
 
                     gl.Vertex((float)(j - 1), 0, (i - 1));
                     gl.Vertex((float)(j - 1), 0, (float)(i));
@@ -220,6 +273,22 @@ namespace SharpGL_CG_TDM
             //  Load the identity matrix.
             gl.LoadIdentity();
 
+            //Camara
+            if (Cobra != null)
+            {
+
+                gl.LookAt(Cobra.getX(), Cobra.getY(), Cobra.getZ(),
+                    0, 0, 0,
+                 0, 1, 0);
+            }
+            /* else
+             {
+                 gl.LookAt(-4, 4, -4,
+                     2, 0, 2,
+                     -4, 6, -4);
+             //}*/
+
+
             //DesenharEixos(gl);
 
             //  Rotate around the Y axis.
@@ -227,13 +296,19 @@ namespace SharpGL_CG_TDM
             gl.Rotate(rotation, 0.0f, 1.0f, 0.0f);
             gl.Scale(Escala, Escala, Escala);
 
-            DesenharEixos(gl, 1.5f);
+            // DesenharEixos(gl, 1.5f);
             //  Draw a coloured pyramid.
             //Desenhar_Exemplo_Base(gl);
 
             DesenharFundo(gl);
 
             foreach (Modelo M in LModelos)
+                M.Desenhar(gl);
+
+            foreach (Modelo M in Obstaculos)
+                M.Desenhar(gl);
+
+            foreach (Modelo M in Comida)
                 M.Desenhar(gl);
 
             //  Nudge the rotation.
@@ -288,11 +363,17 @@ namespace SharpGL_CG_TDM
             gl.Perspective(60.0f, (double)Width / (double)Height, 0.01, 100.0);
             //  Use the 'look at' helper function to position and aim the camera.
 
-            Console.WriteLine(Cobra.)
-
-            gl.LookAt(-4, 4, -4,
-                2, 0, 2,
-                -4, 6, -4);
+            if (Cobra != null)
+            {
+                Console.WriteLine("coordenadas: " + Cobra.getX());
+                gl.LookAt(Cobra.getX(), Cobra.getY(), Cobra.getZ(), 2, 0, 2, -4, 6, -4);
+            }
+            else
+            {
+                gl.LookAt(-4, 4, -4,
+                    2, 0, 2,
+                    -4, 6, -4);
+            }
             //  Set the modelview matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
         }

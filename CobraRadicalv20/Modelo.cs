@@ -30,7 +30,10 @@ namespace SharpGL_CG_TDM
             TX = TY = TZ = 0;
         }
 
-        public double getCoordenadas()
+        public double getX() { return this.TX; }
+        public double getY() { return this.TY; }
+        public double getZ() { return this.TZ; }
+
 
         public void setScale(OpenGL gl, float novaEscalaX, float novaEscalaY, float novaEscalaZ)
         {
