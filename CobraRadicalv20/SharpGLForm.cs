@@ -12,6 +12,9 @@ namespace SharpGL_CG_TDM
     /// </summary>
     public partial class SharpGLForm : Form
     {
+
+        OpenGL gl;
+
         Modelo Cobra;
         int cobraLength;
         List<Modelo> CobraFull;
@@ -46,6 +49,9 @@ namespace SharpGL_CG_TDM
         {
             InitializeComponent();
 
+
+            gl = openGLControl.OpenGL;
+
             this.KeyDown += new KeyEventHandler(keyPress);
 
             TX = 0;
@@ -65,25 +71,25 @@ namespace SharpGL_CG_TDM
             directionHistory = new List<int>();
             directionHistory.Add(1);
 
-            direcaoCobra = 1; //1: X+  2: Y+  3: X-  4: Y-
+            direcaoCobra = 1; //1: X+  2: Z+  3: X-  4: Z-
 
             LModelos = new List<Modelo>();
             Comida = new List<Modelo>();
             Obstaculos = new List<Modelo>();
 
             Cobra.LerFicheiro("..\\..\\loadModelos\\cobraStartModel.obj");
-            //LModelos.Add(Cobra);
+            //Cobra.setScale(gl, 6f, 6f, 6f);
 
             Console.WriteLine("Passei em SharpGLForm");
 
-            fieldSize = 40;
+            fieldSize = 100;
 
             foodMatrix = new int[fieldSize, fieldSize];
             obstaclesMatrix = new int[fieldSize, fieldSize];
 
             timer = new System.Timers.Timer();
             timer.Elapsed += new ElapsedEventHandler(timerMovement);
-            timer.Interval = 200;
+            timer.Interval = 60;
             timer.Enabled = true;
 
             extrasTimer = new System.Timers.Timer();
@@ -92,10 +98,10 @@ namespace SharpGL_CG_TDM
             extrasTimer.Enabled = true;
             extrasTimer.AutoReset = true;
 
-            aumentarCobraTimer = new System.Timers.Timer();
-            aumentarCobraTimer.Elapsed += new ElapsedEventHandler(aumentarCobra);
-            aumentarCobraTimer.Interval = 1000;
-            aumentarCobraTimer.Enabled = true;
+            //aumentarCobraTimer = new System.Timers.Timer();
+            //aumentarCobraTimer.Elapsed += new ElapsedEventHandler(aumentarCobra);
+            //aumentarCobraTimer.Interval = 1000;
+            //aumentarCobraTimer.Enabled = true;
 
             Matriz = new Dictionary<string, List<Modelo>>();
             Matriz["Comida"] = new List<Modelo>();
@@ -152,9 +158,6 @@ namespace SharpGL_CG_TDM
 
             LModelos.Add(cobraPart);
             cobraLength++;
-
-
-
         }
 
         public void randomPosition(object source, ElapsedEventArgs e)
@@ -176,7 +179,8 @@ namespace SharpGL_CG_TDM
                     comida.LerFicheiro("..\\..\\loadModelos\\cobraStartModel.obj");
                     //Obstaculos.Add(obstaculo);
                     Matriz["Comida"].Add(comida);
-                    comida.Translacao(newValueX, 0, newValueY);
+                   // comida.Translacao(newValueX, 1, newValueY);
+                  //  comida.setScale(gl, 2f, 2f, 2f);
                     foodMatrix[newValueX, newValueY] = 1;
                     foodOcupado = false;
                 }
@@ -308,9 +312,9 @@ namespace SharpGL_CG_TDM
         {
             gl.Begin(OpenGL.GL_TRIANGLES);
 
-            for (int i = 0; i < 40; i++)
+            for (int i = 0; i < fieldSize; i++)
             {
-                for (int j = 0; j < 40; j++)
+                for (int j = 0; j < fieldSize; j++)
                 {
                     if (j % 2 == 0 && i % 2 != 0)
                         gl.Color(0.6f, 0.6f, 0.6f);
@@ -440,30 +444,23 @@ namespace SharpGL_CG_TDM
                 M.Desenhar(gl);
             }
 
-
-
-
             foreach (Modelo M in Matriz["Comida"].ToArray())
+            {
                 M.Desenhar(gl, foodColor);
+                if (Cobra.Colide(M))
+                {
+                    Console.WriteLine("colisao comida");
+                }
+            }
 
             foreach (Modelo M in Matriz["obstaculos"].ToArray())
+            {
                 M.Desenhar(gl, obstColor);
-
-            // extrasTimer.Start();
-
-
-            //  Nudge the rotation.
-            /* if (Em_Movimento)
-             {
-                 rotation += Sentido;
-                 Escala += Incremento_Escala;
-                 if ((Escala > 8) || (Escala < 0.5f))
-                     Incremento_Escala = -Incremento_Escala;
-             }*/
-            //if (Escala < 0.5f)
-            //    Incremento_Escala = -Incremento_Escala;
-
-            /// Console.WriteLine("Passei em openGLControl_OpenGLDraw rotation:"+ rotation+ " Escala: "+ Escala);
+                if (Cobra.Colide(M))
+                {
+                    Console.WriteLine("colisao obstaculo");
+                }
+            }
         }
 
         /// <summary>

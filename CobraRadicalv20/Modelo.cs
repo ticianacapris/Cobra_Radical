@@ -47,10 +47,13 @@ namespace SharpGL_CG_TDM
             TX += _tx;
             TY += _ty;
             TZ += _tz;
+
             Xmin += _tx;
             Xmax += _tx;
-
-            //-----
+            Ymin += _ty;
+            Ymax += _ty;
+            Zmin += _tz;
+            Zmax += _tz;
         }
         //-------------------------------
         public bool LerFicheiro(string ficheiro)
@@ -161,6 +164,9 @@ namespace SharpGL_CG_TDM
             if (M2.Ymax < Ymin) return false;
             if (M2.Zmax > Zmin) return false;
             if (M2.Zmax < Zmin) return false;
+
+
+
 
 
             //------ continuar
