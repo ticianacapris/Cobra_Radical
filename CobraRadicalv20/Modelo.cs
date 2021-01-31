@@ -174,15 +174,17 @@ namespace SharpGL_CG_TDM
             Debug.WriteLine("NF = " + LF.Count);
         }
         //-------------------------------
-        public void DesenharArestas(OpenGL gl)
+        public void DesenharArestas(OpenGL gl, float[] color_)
         {
-            gl.Color(200, 100, 50);
+
+            gl.Color(color_);
+
             // Debug.WriteLine("TPC : DesenharArestas");
         }
         //-------------------------------
-        public void DesenharFaces(OpenGL gl)
+        public void DesenharFaces(OpenGL gl, float[] color_)
         {
-            gl.Color(200, 100, 50);
+            gl.Color(color_);
             foreach (Face F in LF)
             {
                 F.Desenhar(gl);
@@ -192,27 +194,30 @@ namespace SharpGL_CG_TDM
         public void Desenhar(OpenGL gl, float[] color_ = null)
         {
 
-            color_ = new float[3] { 0.1f, 0.1f, 0.1f };
-            gl.Color(color_);
+            if (color_ == null)
+            {
+                color_ = new float[3] { 0.1f, 0.1f, 0.1f };
+            }
+
 
             gl.Scale(escalaX, escalaY, escalaZ);
 
             DesenharEnvolvente(gl);
-        gl.PushMatrix();
+            gl.PushMatrix();
             gl.Translate(TX, TY, TZ);
-            DesenharFaces(gl);
-        DesenharArestas(gl);
+            DesenharFaces(gl, color_);
+            DesenharArestas(gl, color_);
 
-        gl.PopMatrix();
+            gl.PopMatrix();
         }
-    //-------------------------------
-    public void DesenharEnvolvente(OpenGL gl)
-    {
-        Uteis.Linha(gl, Xmin, Ymin, Zmin, Xmax, Ymin, Zmin);
-        Uteis.Linha(gl, Xmax, Ymin, Zmin, Xmax, Ymax, Zmin);
-        Uteis.Linha(gl, Xmax, Ymax, Zmin, Xmin, Ymax, Zmin);
-        // Fazer as outras linhas da envolvente!
-        // total 12
+        //-------------------------------
+        public void DesenharEnvolvente(OpenGL gl)
+        {
+            Uteis.Linha(gl, Xmin, Ymin, Zmin, Xmax, Ymin, Zmin);
+            Uteis.Linha(gl, Xmax, Ymin, Zmin, Xmax, Ymax, Zmin);
+            Uteis.Linha(gl, Xmax, Ymax, Zmin, Xmin, Ymax, Zmin);
+            // Fazer as outras linhas da envolvente!
+            // total 12
+        }
     }
-}
 }

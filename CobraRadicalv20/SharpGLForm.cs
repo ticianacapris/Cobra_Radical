@@ -13,6 +13,7 @@ namespace SharpGL_CG_TDM
     public partial class SharpGLForm : Form
     {
         Modelo Cobra;
+        int cobraLength;
 
         double TX, TY, TZ;
         double Escala, Incremento_Escala;
@@ -21,6 +22,9 @@ namespace SharpGL_CG_TDM
         List<Modelo> Obstaculos;
         List<Modelo> Comida;
         bool Em_Movimento;
+
+        float[] foodColor;
+        float[] obstColor;
 
         int direcaoCobra;
 
@@ -49,7 +53,11 @@ namespace SharpGL_CG_TDM
             Sentido = 2;
             Em_Movimento = true;
 
+            foodColor = new float[3] { 0.6f, 0.6f, 0.6f };
+            obstColor = new float[3] { 0.1f, 0.1f, 0.1f };
+
             Cobra = new Modelo();
+            cobraLength = 1;
 
             direcaoCobra = 1; //1: X+  2: Y+  3: X-  4: Y-
 
@@ -322,17 +330,16 @@ namespace SharpGL_CG_TDM
                         float[] snakeColor = new float[3] { 0.9f, 0.9f, 0.9f };
                         float[] foodColor = new float[3] { 0.1f, 0.1f, 0.1f };*/
 
-
             //extrasTimer.Stop();
 
             foreach (Modelo M in LModelos)
                 M.Desenhar(gl);
 
-            //foreach (Modelo M in Matriz["Comida"].ToArray())
-            //    M.Desenhar(gl);
+            foreach (Modelo M in Matriz["Comida"].ToArray())
+                M.Desenhar(gl, foodColor);
 
             foreach (Modelo M in Matriz["obstaculos"].ToArray())
-                M.Desenhar(gl);
+                M.Desenhar(gl, obstColor);
 
             // extrasTimer.Start();
 
