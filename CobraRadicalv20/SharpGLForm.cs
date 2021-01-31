@@ -34,6 +34,7 @@ namespace SharpGL_CG_TDM
 
         System.Timers.Timer timer;
         System.Timers.Timer extrasTimer;
+        System.Timers.Timer aumentarCobraTimer;
 
         int[,] foodMatrix, obstaclesMatrix;
 
@@ -59,9 +60,10 @@ namespace SharpGL_CG_TDM
             obstColor = new float[3] { 0.1f, 0.1f, 0.1f };
 
             Cobra = new Modelo();
-            cobraLength = 3;
+            cobraLength = 1;
             CobraFull = new List<Modelo>();
             directionHistory = new List<int>();
+            directionHistory.Add(1);
 
             direcaoCobra = 1; //1: X+  2: Y+  3: X-  4: Y-
 
@@ -70,7 +72,7 @@ namespace SharpGL_CG_TDM
             Obstaculos = new List<Modelo>();
 
             Cobra.LerFicheiro("..\\..\\loadModelos\\cobraStartModel.obj");
-            LModelos.Add(Cobra);
+            //LModelos.Add(Cobra);
 
             Console.WriteLine("Passei em SharpGLForm");
 
@@ -86,15 +88,38 @@ namespace SharpGL_CG_TDM
 
             extrasTimer = new System.Timers.Timer();
             extrasTimer.Elapsed += new ElapsedEventHandler(randomPosition);
-            extrasTimer.Interval = 4000;
+            extrasTimer.Interval = 10000;
             extrasTimer.Enabled = true;
             extrasTimer.AutoReset = true;
+
+            //aumentarCobraTimer = new System.Timers.Timer();
+            //aumentarCobraTimer.Elapsed += new ElapsedEventHandler(aumentarCobra);
+            //aumentarCobraTimer.Interval = 1000;
+            //aumentarCobraTimer.Enabled = true;
 
             Matriz = new Dictionary<string, List<Modelo>>();
             Matriz["Comida"] = new List<Modelo>();
             Matriz["obstaculos"] = new List<Modelo>();
 
             rndNumber = new Random();
+
+            aumentarCobra();
+            aumentarCobra();
+            aumentarCobra();
+            aumentarCobra();
+        }
+
+        public void aumentarCobra()
+        {
+            Console.WriteLine("aumentar cobra");
+
+            Modelo cobraPart = new Modelo();
+            cobraPart.LerFicheiro("..\\..\\loadModelos\\cobraStartModel.obj");
+            cobraPart.Translacao(Cobra.getX() - LModelos.Count - 1, 0, Cobra.getZ());
+            LModelos.Add(cobraPart);
+
+            cobraLength++;
+
         }
 
         public void randomPosition(object source, ElapsedEventArgs e)
@@ -157,10 +182,36 @@ namespace SharpGL_CG_TDM
                     Cobra.Translacao(0, 0, -1);
                     directionHistory.Add(4);
                     break;
-                default:
+                case 1:
                     directionHistory.Add(1);
                     Cobra.Translacao(1, 0, 0);
                     break;
+            }
+
+            for (int i = 1; i <= LModelos.Count; i++)
+            {
+                if (directionHistory.Count > LModelos.Count)
+                {
+                    switch (directionHistory[directionHistory.Count - i - 1])
+                    {
+                        case 2:
+                            LModelos[i - 1].Translacao(0, 0, 1);
+                            break;
+                        case 3:
+                            LModelos[i - 1].Translacao(-1, 0, 0);
+                            break;
+                        case 4:
+                            LModelos[i - 1].Translacao(0, 0, -1);
+                            break;
+                        case 1:
+                            LModelos[i - 1].Translacao(1, 0, 0);
+                            break;
+                    }
+                }
+                else
+                {
+                    LModelos[i - 1].Translacao(1, 0, 0);
+                }
             }
         }
 
@@ -346,15 +397,16 @@ namespace SharpGL_CG_TDM
 
             //extrasTimer.Stop();
 
-
-            for (int i = 0; i < cobraLength; i++)
-            {
-
-            }
+            Cobra.Desenhar(gl);
 
 
             foreach (Modelo M in LModelos)
+            {
                 M.Desenhar(gl);
+            }
+
+
+
 
             foreach (Modelo M in Matriz["Comida"].ToArray())
                 M.Desenhar(gl, foodColor);
