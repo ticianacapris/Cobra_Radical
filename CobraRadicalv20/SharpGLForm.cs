@@ -92,10 +92,10 @@ namespace SharpGL_CG_TDM
             extrasTimer.Enabled = true;
             extrasTimer.AutoReset = true;
 
-            //aumentarCobraTimer = new System.Timers.Timer();
-            //aumentarCobraTimer.Elapsed += new ElapsedEventHandler(aumentarCobra);
-            //aumentarCobraTimer.Interval = 1000;
-            //aumentarCobraTimer.Enabled = true;
+            aumentarCobraTimer = new System.Timers.Timer();
+            aumentarCobraTimer.Elapsed += new ElapsedEventHandler(aumentarCobra);
+            aumentarCobraTimer.Interval = 1000;
+            aumentarCobraTimer.Enabled = true;
 
             Matriz = new Dictionary<string, List<Modelo>>();
             Matriz["Comida"] = new List<Modelo>();
@@ -103,22 +103,57 @@ namespace SharpGL_CG_TDM
 
             rndNumber = new Random();
 
-            aumentarCobra();
-            aumentarCobra();
-            aumentarCobra();
-            aumentarCobra();
+
         }
 
-        public void aumentarCobra()
+        public void aumentarCobra(object source, ElapsedEventArgs e)
         {
             Console.WriteLine("aumentar cobra");
 
             Modelo cobraPart = new Modelo();
             cobraPart.LerFicheiro("..\\..\\loadModelos\\cobraStartModel.obj");
-            cobraPart.Translacao(Cobra.getX() - LModelos.Count - 1, 0, Cobra.getZ());
-            LModelos.Add(cobraPart);
+            if (LModelos.Count > 0)
+            {
 
+                switch (directionHistory[directionHistory.Count - 1 - LModelos.Count])
+                {
+                    case 1:
+                        cobraPart.Translacao(LModelos[LModelos.Count - 1].getX() - 1, 0, LModelos[LModelos.Count - 1].getZ());
+                        break;
+                    case 2:
+                        cobraPart.Translacao(LModelos[LModelos.Count - 1].getX(), 0, LModelos[LModelos.Count - 1].getZ() - 1);
+                        break;
+                    case 3:
+                        cobraPart.Translacao(LModelos[LModelos.Count - 1].getX() + 1, 0, LModelos[LModelos.Count - 1].getZ());
+                        break;
+                    case 4:
+                        cobraPart.Translacao(LModelos[LModelos.Count - 1].getX(), 0, LModelos[LModelos.Count - 1].getZ() + 1);
+                        break;
+                }
+            }
+            else
+            {
+                switch (directionHistory[directionHistory.Count - 1])
+                {
+                    case 1:
+                        cobraPart.Translacao(Cobra.getX() - 1, 0, Cobra.getZ());
+                        break;
+                    case 2:
+                        cobraPart.Translacao(Cobra.getX(), 0, Cobra.getZ() - 1);
+                        break;
+                    case 3:
+                        cobraPart.Translacao(Cobra.getX() + 1, 0, Cobra.getZ());
+                        break;
+                    case 4:
+                        cobraPart.Translacao(Cobra.getX(), 0, Cobra.getZ() + 1);
+                        break;
+                }
+            }
+
+            LModelos.Add(cobraPart);
             cobraLength++;
+
+
 
         }
 
