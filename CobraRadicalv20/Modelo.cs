@@ -66,14 +66,16 @@ namespace SharpGL_CG_TDM
             {
                 using (StreamReader sr = new StreamReader(ficheiro))
                 {
-                    String linha;
+                    string linha;
                     bool Primeira_Passagem = true;
+
+
                     // Lê linha por linha até o final do arquivo
                     while ((linha = sr.ReadLine()) != null)
                     {
-                        Console.WriteLine(linha);
+                        //Console.WriteLine(linha);
 
-                        String[] Dados = linha.Split(' ');
+                        string[] Dados = linha.Split(' ');
                         if (Dados.Length != 0)
                         {
                             /*
@@ -86,7 +88,7 @@ namespace SharpGL_CG_TDM
                             switch (Dados[0])
                             {
                                 case "v":
-                                    Console.WriteLine("Tenho um vertice");
+                                    //  Console.WriteLine("Tenho um vertice");
 
                                     double X = Convert.ToDouble(Dados[1], System.Globalization.CultureInfo.InvariantCulture);
                                     double Y = Convert.ToDouble(Dados[2], System.Globalization.CultureInfo.InvariantCulture);
@@ -115,7 +117,7 @@ namespace SharpGL_CG_TDM
                                     }
                                     break;
                                 case "f":
-                                    Console.WriteLine("Tenho um FACE");
+                                    // Console.WriteLine("Tenho um FACE");
                                     // Pode/deve ser feita uma melhoria na leitura das faces!
                                     // Neste caso só está a ler triangulos
                                     Face F = new Face();
@@ -128,28 +130,24 @@ namespace SharpGL_CG_TDM
                                     LF.Add(F);
                                     break;
                                 case "#":
-                                    Console.WriteLine("Nao faças nada comentário");
-
+                                    //Console.WriteLine("Nao faças nada comentário");
                                     break;
-
-
-
                                 default:
                                     break;
                             }
 
                         }
                         //Console.WriteLine(teste);
-
                     }
+                    sr.Close();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Problemas na Leitura do Ficheiro: " + ex.Message);
+                Console.WriteLine("Problema: " + ex.Message);
             }
-            Console.WriteLine("XMin = " + Xmin);
-            Console.WriteLine("XMax = " + Xmax);
+            //Console.WriteLine("XMin = " + Xmin);
+            //Console.WriteLine("XMax = " + Xmax);
 
             // Fechar o Ficheiro         
             return true;
@@ -191,27 +189,30 @@ namespace SharpGL_CG_TDM
             }
         }
         //-------------------------------
-        public void Desenhar(OpenGL gl)
-        { 
-            
+        public void Desenhar(OpenGL gl, float[] color_ = null)
+        {
+
+            color_ = new float[3] { 0.1f, 0.1f, 0.1f };
+            gl.Color(color_);
+
             gl.Scale(escalaX, escalaY, escalaZ);
-            
+
             DesenharEnvolvente(gl);
-            gl.PushMatrix();
+        gl.PushMatrix();
             gl.Translate(TX, TY, TZ);
             DesenharFaces(gl);
-            DesenharArestas(gl);
+        DesenharArestas(gl);
 
-            gl.PopMatrix();
+        gl.PopMatrix();
         }
-        //-------------------------------
-        public void DesenharEnvolvente(OpenGL gl)
-        {
-            Uteis.Linha(gl, Xmin, Ymin, Zmin, Xmax, Ymin, Zmin);
-            Uteis.Linha(gl, Xmax, Ymin, Zmin, Xmax, Ymax, Zmin);
-            Uteis.Linha(gl, Xmax, Ymax, Zmin, Xmin, Ymax, Zmin);
-            // Fazer as outras linhas da envolvente!
-            // total 12
-        }
+    //-------------------------------
+    public void DesenharEnvolvente(OpenGL gl)
+    {
+        Uteis.Linha(gl, Xmin, Ymin, Zmin, Xmax, Ymin, Zmin);
+        Uteis.Linha(gl, Xmax, Ymin, Zmin, Xmax, Ymax, Zmin);
+        Uteis.Linha(gl, Xmax, Ymax, Zmin, Xmin, Ymax, Zmin);
+        // Fazer as outras linhas da envolvente!
+        // total 12
     }
+}
 }
