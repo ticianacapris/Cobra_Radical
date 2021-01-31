@@ -14,6 +14,8 @@ namespace SharpGL_CG_TDM
     {
         Modelo Cobra;
         int cobraLength;
+        List<Modelo> CobraFull;
+        List<int> directionHistory;
 
         double TX, TY, TZ;
         double Escala, Incremento_Escala;
@@ -57,7 +59,9 @@ namespace SharpGL_CG_TDM
             obstColor = new float[3] { 0.1f, 0.1f, 0.1f };
 
             Cobra = new Modelo();
-            cobraLength = 1;
+            cobraLength = 3;
+            CobraFull = new List<Modelo>();
+            directionHistory = new List<int>();
 
             direcaoCobra = 1; //1: X+  2: Y+  3: X-  4: Y-
 
@@ -143,14 +147,18 @@ namespace SharpGL_CG_TDM
             {
                 case 2:
                     Cobra.Translacao(0, 0, 1);
+                    directionHistory.Add(2);
                     break;
                 case 3:
                     Cobra.Translacao(-1, 0, 0);
+                    directionHistory.Add(3);
                     break;
                 case 4:
                     Cobra.Translacao(0, 0, -1);
+                    directionHistory.Add(4);
                     break;
                 default:
+                    directionHistory.Add(1);
                     Cobra.Translacao(1, 0, 0);
                     break;
             }
@@ -159,30 +167,36 @@ namespace SharpGL_CG_TDM
         private void keyPress(object sender, KeyEventArgs e)
         {
 
-            Console.WriteLine(e.KeyCode);
-
 
             switch (e.KeyCode)
             {
                 case Keys.Left:
                 case Keys.A:
                     if (direcaoCobra != 2)
+                    {
                         direcaoCobra = 4;
+                    }
                     break;
                 case Keys.Down:
                 case Keys.S:
                     if (direcaoCobra != 1)
+                    {
                         direcaoCobra = 3;
+                    }
                     break;
                 case Keys.Right:
                 case Keys.D:
                     if (direcaoCobra != 4)
+                    {
                         direcaoCobra = 2;
+                    }
                     break;
                 case Keys.Up:
                 case Keys.W:
                     if (direcaoCobra != 3)
+                    {
                         direcaoCobra = 1;
+                    }
                     break;
                 default:
                     Console.WriteLine(e.KeyCode);
@@ -331,6 +345,13 @@ namespace SharpGL_CG_TDM
                         float[] foodColor = new float[3] { 0.1f, 0.1f, 0.1f };*/
 
             //extrasTimer.Stop();
+
+
+            for (int i = 0; i < cobraLength; i++)
+            {
+
+            }
+
 
             foreach (Modelo M in LModelos)
                 M.Desenhar(gl);
