@@ -38,6 +38,7 @@ namespace SharpGL_CG_TDM
         System.Timers.Timer timer;
         System.Timers.Timer extrasTimer;
         System.Timers.Timer aumentarCobraTimer;
+        System.Timers.Timer rotatetimer;
 
         int[,] foodMatrix, obstaclesMatrix;
 
@@ -48,7 +49,6 @@ namespace SharpGL_CG_TDM
         public SharpGLForm()
         {
             InitializeComponent();
-
 
             gl = openGLControl.OpenGL;
 
@@ -94,7 +94,7 @@ namespace SharpGL_CG_TDM
 
             extrasTimer = new System.Timers.Timer();
             extrasTimer.Elapsed += new ElapsedEventHandler(randomPosition);
-            extrasTimer.Interval = 10000;
+            extrasTimer.Interval = 2000;
             extrasTimer.Enabled = true;
             extrasTimer.AutoReset = true;
 
@@ -102,6 +102,11 @@ namespace SharpGL_CG_TDM
             //aumentarCobraTimer.Elapsed += new ElapsedEventHandler(aumentarCobra);
             //aumentarCobraTimer.Interval = 1000;
             //aumentarCobraTimer.Enabled = true;
+
+            rotatetimer = new System.Timers.Timer();
+            rotatetimer.Elapsed += new ElapsedEventHandler(rotateFunction);
+            rotatetimer.Interval = 60;
+            rotatetimer.Enabled = true;
 
             Matriz = new Dictionary<string, List<Modelo>>();
             Matriz["Comida"] = new List<Modelo>();
@@ -112,7 +117,18 @@ namespace SharpGL_CG_TDM
 
         }
 
-        public void aumentarCobra(object source, ElapsedEventArgs e)
+        public void rotateFunction(object source, ElapsedEventArgs e)
+        {
+            foreach (Modelo M in Matriz["Comida"].ToArray())
+            {
+                for (int i = 1; i <= 6; i++)
+                {
+                    M.rotate(gl, 30 * i, 0, 30 * i);
+                }
+            }
+        }
+
+        public void aumentarCobra()
         {
             Console.WriteLine("aumentar cobra");
 
@@ -176,11 +192,9 @@ namespace SharpGL_CG_TDM
                 {
                     Console.WriteLine("Mais comida");
                     Modelo comida = new Modelo();
-                    comida.LerFicheiro("..\\..\\loadModelos\\cobraStartModel.obj");
-                    //Obstaculos.Add(obstaculo);
+                    comida.LerFicheiro("..\\..\\loadModelos\\fruta_2.obj");
                     Matriz["Comida"].Add(comida);
-                   // comida.Translacao(newValueX, 1, newValueY);
-                  //  comida.setScale(gl, 2f, 2f, 2f);
+                    comida.Translacao(newValueX, 1, newValueY);
                     foodMatrix[newValueX, newValueY] = 1;
                     foodOcupado = false;
                 }
@@ -225,6 +239,25 @@ namespace SharpGL_CG_TDM
                     directionHistory.Add(1);
                     Cobra.Translacao(1, 0, 0);
                     break;
+            }
+
+
+            foreach (Modelo M in Matriz["Comida"].ToArray())
+            {
+                M.Desenhar(gl, foodColor);
+                if (Cobra.Colide(M))
+                {
+                    aumentarCobra();
+                }
+            }
+
+            foreach (Modelo M in Matriz["obstaculos"].ToArray())
+            {
+                M.Desenhar(gl, obstColor);
+                if (Cobra.Colide(M))
+                {
+                    Console.WriteLine("colisao obstaculo");
+                }
             }
 
             for (int i = 1; i <= LModelos.Count; i++)
@@ -447,19 +480,11 @@ namespace SharpGL_CG_TDM
             foreach (Modelo M in Matriz["Comida"].ToArray())
             {
                 M.Desenhar(gl, foodColor);
-                if (Cobra.Colide(M))
-                {
-                    Console.WriteLine("colisao comida");
-                }
             }
 
             foreach (Modelo M in Matriz["obstaculos"].ToArray())
             {
                 M.Desenhar(gl, obstColor);
-                if (Cobra.Colide(M))
-                {
-                    Console.WriteLine("colisao obstaculo");
-                }
             }
         }
 
@@ -587,6 +612,9 @@ namespace SharpGL_CG_TDM
                 Btn_Parar.Text = "PARAR";
             else
                 Btn_Parar.Text = "ANDAR";
+
+
+            timer.Stop();
 
         }
 

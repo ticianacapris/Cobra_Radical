@@ -7,6 +7,7 @@ using SharpGL.SceneGraph.Assets;
 using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Timers;
 
 namespace SharpGL_CG_TDM
 {
@@ -20,6 +21,10 @@ namespace SharpGL_CG_TDM
         double Xmin, Xmax, Ymin, Ymax, Zmin, Zmax;
         double TX, TY, TZ;
 
+        System.Timers.Timer rotatetimer;
+
+        int Rx, Ry, Rz;
+
         public Modelo()
         {
             Escala = 1f;
@@ -28,12 +33,20 @@ namespace SharpGL_CG_TDM
             LF = new List<Face>();
             LT = new List<Triangulo>();
             TX = TY = TZ = 0;
+
+            Rx = Ry = Rz = 0;
+
         }
 
         public double getX() { return this.TX; }
         public double getY() { return this.TY; }
+        public void setY(double y_) { this.TY = y_; }
         public double getZ() { return this.TZ; }
 
+        public void rotate(OpenGL gl, int Rx_, int Ry_, int Rz_)
+        {
+            gl.Rotate(Rx_, Ry_, Rz_);
+        }
 
         public void setScale(OpenGL gl, float novaEscalaX, float novaEscalaY, float novaEscalaZ)
         {
@@ -160,16 +173,12 @@ namespace SharpGL_CG_TDM
         {
             if (M2.Xmin > Xmax) return false;
             if (M2.Xmax < Xmin) return false;
-            if (M2.Ymax > Ymin) return false;
+            if (M2.Ymin > Ymax) return false;
             if (M2.Ymax < Ymin) return false;
-            if (M2.Zmax > Zmin) return false;
+            if (M2.Zmin > Zmax) return false;
             if (M2.Zmax < Zmin) return false;
 
 
-
-
-
-            //------ continuar
             return true;
         }
         //-------------------------------
@@ -196,7 +205,7 @@ namespace SharpGL_CG_TDM
                 F.Desenhar(gl);
             }
         }
-        //-------------------------------
+
         public void Desenhar(OpenGL gl, float[] color_ = null)
         {
 
@@ -205,16 +214,22 @@ namespace SharpGL_CG_TDM
                 color_ = new float[3] { 0.1f, 0.1f, 0.1f };
             }
 
-
             gl.Scale(escalaX, escalaY, escalaZ);
+
 
             DesenharEnvolvente(gl);
             gl.PushMatrix();
             gl.Translate(TX, TY, TZ);
+
+            //rotate(gl, 30*i);
+
+            //rotate
+
             DesenharFaces(gl, color_);
             DesenharArestas(gl, color_);
-
             gl.PopMatrix();
+
+            gl.PushMatrix();
         }
         //-------------------------------
         public void DesenharEnvolvente(OpenGL gl)
@@ -222,6 +237,8 @@ namespace SharpGL_CG_TDM
             Uteis.Linha(gl, Xmin, Ymin, Zmin, Xmax, Ymin, Zmin);
             Uteis.Linha(gl, Xmax, Ymin, Zmin, Xmax, Ymax, Zmin);
             Uteis.Linha(gl, Xmax, Ymax, Zmin, Xmin, Ymax, Zmin);
+
+
             // Fazer as outras linhas da envolvente!
             // total 12
         }
