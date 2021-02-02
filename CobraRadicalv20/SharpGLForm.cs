@@ -32,16 +32,12 @@ namespace SharpGL_CG_TDM
         List<Modelo> Comida;
         bool Em_Movimento;
 
-        float[] foodColor;
-        float[] obstColor;
-
         int direcaoCobra;
 
         int fieldSize;
 
         System.Timers.Timer timer;
         System.Timers.Timer extrasTimer;
-        System.Timers.Timer aumentarCobraTimer;
         System.Timers.Timer rotatetimer;
 
         int[,] foodMatrix, obstaclesMatrix;
@@ -57,15 +53,18 @@ namespace SharpGL_CG_TDM
         {
             InitializeComponent();
 
-            TextArray = new Texture[2];
+            TextArray = new Texture[5];
 
             gl = openGLControl.OpenGL;
 
-            for (int i = 1; i <= 2; i++)
+            for (int i = 1; i <= 4; i++)
             {
                 TextArray[i - 1] = new Texture();
                 TextArray[i - 1].Create(gl, "..\\..\\Texturas\\Text" + i + ".bmp");
             }
+
+            TextArray[4] = new Texture();
+            TextArray[4].Create(gl, "..\\..\\Texturas\\Terrain.bmp");
 
             this.KeyDown += new KeyEventHandler(keyPress);
 
@@ -76,9 +75,6 @@ namespace SharpGL_CG_TDM
             Incremento_Escala = 0.1;
             Sentido = 2;
             Em_Movimento = true;
-
-            foodColor = new float[3] { 0f, 0f, 1f };
-            obstColor = new float[3] { 0.1f, 0.1f, 0.1f };
 
             Cobra = new Modelo();
             cobraLength = 1;
@@ -145,8 +141,8 @@ namespace SharpGL_CG_TDM
             if (currentPont > maxPont)
                 maxPont = currentPont;
 
-            pontLabel.Text = string.Format("Pontuação: " + currentPont);
-            maxPontLabel.Text = string.Format("Pontuação máxima: " + maxPont);
+            //            pontLabel.Text = string.Format("Pontuação: " + currentPont);
+            //          maxPontLabel.Text = string.Format("Pontuação máxima: " + maxPont);
         }
 
         private void updateScreenPont(object sender, EventArgs e)
@@ -160,7 +156,7 @@ namespace SharpGL_CG_TDM
         public void aumentarCobra()
         {
             Modelo cobraPart = new Modelo();
-            cobraPart.LerFicheiro("..\\..\\loadModelos\\cobraStartModel.obj");
+            cobraPart.LerFicheiro("..\\..\\loadModelos\\snakeBody.obj");
             if (LModelos.Count > 0)
             {
 
@@ -393,15 +389,16 @@ namespace SharpGL_CG_TDM
         {
             gl.Begin(OpenGL.GL_TRIANGLES);
 
+            //gl.Enable(OpenGL.GL_TEXTURE_2D);
+            //TextArray[4].Bind(gl);
+
+            gl.Color(0.9f, 0.9f, 0.9f);
+
+
             for (int i = 0; i < fieldSize; i++)
             {
                 for (int j = 0; j < fieldSize; j++)
                 {
-                    if (j % 2 == 0 && i % 2 != 0)
-                        gl.Color(0.6f, 0.6f, 0.6f);
-                    else
-                        gl.Color(0.8f, 0.8f, 0.8f);
-
                     gl.Vertex((float)(j - 1), 0, (i - 1));
                     gl.Vertex((float)(j - 1), 0, (float)(i));
                     gl.Vertex((float)(j), 0, (float)(i - 1));
@@ -411,6 +408,7 @@ namespace SharpGL_CG_TDM
                     gl.Vertex((float)(j), 0, (float)(i));
                 }
             }
+            //gl.Disable(OpenGL.GL_TEXTURE_2D);
             gl.End();
         }
 
@@ -449,21 +447,21 @@ namespace SharpGL_CG_TDM
             // gl.Sphere()
             gl.LineWidth(2.0f);
             gl.Begin(OpenGL.GL_LINES);
-            gl.Color(1.0f, 0.0f, 0.0f);
+            // gl.Color(1.0f, 0.0f, 0.0f);
             gl.Vertex(0.0f, 0.0f, 0.0f); // origin of the line
             gl.Vertex(TAM, 0.0f, 0.0f); // ending point of the line
             gl.End();
 
             //eixo y
             gl.Begin(OpenGL.GL_LINES);
-            gl.Color(0.0f, 1.0f, 0.0f);
+            // gl.Color(0.0f, 1.0f, 0.0f);
             gl.Vertex(0.0f, 0.0f, 0.0f); // origin of the line
             gl.Vertex(0.0f, TAM, 0.0f); // ending point of the line
             gl.End();
 
             //eixo z
             gl.Begin(OpenGL.GL_LINES);
-            gl.Color(0.0f, 0.0f, 1.0f);
+            // gl.Color(0.0f, 0.0f, 1.0f);
             gl.Vertex(0.0f, 0.0f, 0.0f); // origin of the line
             gl.Vertex(0.0f, 0.0f, TAM); // ending point of the line
             gl.End();
@@ -498,64 +496,46 @@ namespace SharpGL_CG_TDM
                      -4, 6, -4);
              //}*/
 
-
-            //DesenharEixos(gl);
-
-            //  Rotate around the Y axis.
-            /*            gl.Translate(TX, TY, TZ);
-                        gl.Rotate(rotation, 0.0f, 1.0f, 0.0f);
-                        gl.Scale(Escala, Escala, Escala);*/
-
-            // DesenharEixos(gl, 1.5f);
-            //  Draw a coloured pyramid.
-            //Desenhar_Exemplo_Base(gl);
-
-
             DesenharFundo(gl);
-            /*
-                        float[] obstaclesColor = new float[3] { 0.5f, 0.5f, 0.5f };
-                        float[] snakeColor = new float[3] { 0.9f, 0.9f, 0.9f };
-                        float[] foodColor = new float[3] { 0.1f, 0.1f, 0.1f };*/
-
-            //extrasTimer.Stop();
 
 
             gl.Enable(OpenGL.GL_TEXTURE_2D);
             TextArray[0].Bind(gl);
+
             Cobra.Desenhar(gl);
+
             gl.Disable(OpenGL.GL_TEXTURE_2D);
-
-
 
             foreach (Modelo M in LModelos)
             {
+                gl.Enable(OpenGL.GL_TEXTURE_2D);
+                TextArray[0].Bind(gl);
+
                 M.Desenhar(gl);
+
+                gl.Disable(OpenGL.GL_TEXTURE_2D);
             }
 
             foreach (Modelo M in Matriz["Comida"].ToArray())
             {
                 gl.Enable(OpenGL.GL_TEXTURE_2D);
-                TextArray[1].Bind(gl);
+                TextArray[2].Bind(gl);
 
                 M.Desenhar(gl);
+
                 gl.Disable(OpenGL.GL_TEXTURE_2D);
             }
 
             foreach (Modelo M in Matriz["obstaculos"].ToArray())
             {
                 gl.Enable(OpenGL.GL_TEXTURE_2D);
-                TextArray[0].Bind(gl);
+                TextArray[3].Bind(gl);
                 M.Desenhar(gl);
                 gl.Disable(OpenGL.GL_TEXTURE_2D);
 
             }
         }
 
-        /// <summary>
-        /// Handles the OpenGLInitialized event of the openGLControl control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void openGLControl_OpenGLInitialized(object sender, EventArgs e)
         {
             //  TODO: Initialise OpenGL here.
@@ -564,7 +544,7 @@ namespace SharpGL_CG_TDM
 
             OpenGL gl = openGLControl.OpenGL;
             //  Set the clear color.
-            gl.ClearColor(0.7f, 0.7f, 0.7f, 1);
+            gl.ClearColor(1.0f, 1.0f, 1.0f, 1);
 
         }
 
@@ -683,12 +663,12 @@ namespace SharpGL_CG_TDM
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Modelo Jogador = new Modelo();
-            foreach (Modelo M in LModelos)
-                if (Jogador.Colide(M))
-                {
+            // Modelo Jogador = new Modelo();
+            //foreach (Modelo M in LModelos)
+            //    if (Jogador.Colide(M))
+            //    {
 
-                }
+            //    }
         }
 
         private void Btn_Inverter_Click(object sender, EventArgs e)

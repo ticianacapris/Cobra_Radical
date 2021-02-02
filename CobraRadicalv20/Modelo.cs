@@ -214,18 +214,12 @@ namespace SharpGL_CG_TDM
 
         public void Desenhar(OpenGL gl)
         {
-
           
             gl.Scale(escalaX, escalaY, escalaZ);
-
 
             DesenharEnvolvente(gl);
             gl.PushMatrix();
             gl.Translate(TX, TY, TZ);
-
-            //rotate(gl, 30*i);
-
-            //rotate
 
             DesenharFaces(gl);
             DesenharArestas(gl);
@@ -233,7 +227,7 @@ namespace SharpGL_CG_TDM
 
             gl.PushMatrix();
         }
-        //-------------------------------
+        
         public void DesenharEnvolvente(OpenGL gl)
         {
             Uteis.Linha(gl, Xmin, Ymin, Zmin, Xmax, Ymin, Zmin);
