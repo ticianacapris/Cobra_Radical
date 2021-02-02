@@ -16,8 +16,10 @@ namespace SharpGL_CG_TDM
         float Escala;
         float escalaX, escalaY, escalaZ;
         List<Vertice> LV;
+        List<Vertice> lVT;
         List<Face> LF;
-        List<Triangulo> LT;
+        // List<Triangulo> LT;
+        List<Textura> LT;
         double Xmin, Xmax, Ymin, Ymax, Zmin, Zmax;
         double TX, TY, TZ;
 
@@ -31,7 +33,7 @@ namespace SharpGL_CG_TDM
             escalaX = escalaY = escalaZ = 1f;
             LV = new List<Vertice>();
             LF = new List<Face>();
-            LT = new List<Triangulo>();
+            LT = new List<Textura>();
             TX = TY = TZ = 0;
 
             Rx = Ry = Rz = 0;
@@ -53,6 +55,8 @@ namespace SharpGL_CG_TDM
             escalaX += novaEscalaX;
             escalaY += novaEscalaY;
             escalaZ += novaEscalaZ;
+
+
         }
 
         public void Translacao(double _tx, double _ty, double _tz)
@@ -133,17 +137,20 @@ namespace SharpGL_CG_TDM
                                     }
                                     break;
                                 case "f":
-                                    // Console.WriteLine("Tenho um FACE");
-                                    // Pode/deve ser feita uma melhoria na leitura das faces!
-                                    // Neste caso só está a ler triangulos
                                     Face F = new Face();
-                                    int V1 = Convert.ToInt32(Dados[1]);
-                                    int V2 = Convert.ToInt32(Dados[2]);
-                                    int V3 = Convert.ToInt32(Dados[3]);
-                                    F.Add(LV[V1 - 1]);
-                                    F.Add(LV[V2 - 1]);
-                                    F.Add(LV[V3 - 1]);
+                                    for (int i = 1; i < 4; i++)
+                                    {
+                                        string[] linha_face = Dados[i].Split('/');
+                                        int V1 = Convert.ToInt32(linha_face[0]);
+                                        int ft1 = Convert.ToInt32(linha_face[1]);
+                                        F.Add(LV[V1 - 1]);
+                                        F.AddTexture(LT[ft1 - 1]);
+                                    }
                                     LF.Add(F);
+                                    break;
+                                case "vt":
+                                    Textura textura = new Textura(Convert.ToDouble(Dados[1], System.Globalization.CultureInfo.InvariantCulture), Convert.ToDouble(Dados[2], System.Globalization.CultureInfo.InvariantCulture));
+                                    LT.Add(textura);
                                     break;
                                 case "#":
                                     //Console.WriteLine("Nao faças nada comentário");
@@ -161,6 +168,7 @@ namespace SharpGL_CG_TDM
             catch (Exception ex)
             {
                 Console.WriteLine("Problema: " + ex.Message);
+                Console.WriteLine("Problema: " + ex);
             }
             //Console.WriteLine("XMin = " + Xmin);
             //Console.WriteLine("XMax = " + Xmax);
@@ -189,31 +197,25 @@ namespace SharpGL_CG_TDM
             Debug.WriteLine("NF = " + LF.Count);
         }
         //-------------------------------
-        public void DesenharArestas(OpenGL gl, float[] color_)
+        public void DesenharArestas(OpenGL gl)
         {
 
-            gl.Color(color_);
 
             // Debug.WriteLine("TPC : DesenharArestas");
         }
         //-------------------------------
-        public void DesenharFaces(OpenGL gl, float[] color_)
+        public void DesenharFaces(OpenGL gl)
         {
-            gl.Color(color_);
             foreach (Face F in LF)
             {
                 F.Desenhar(gl);
             }
         }
 
-        public void Desenhar(OpenGL gl, float[] color_ = null)
+        public void Desenhar(OpenGL gl)
         {
 
-            if (color_ == null)
-            {
-                color_ = new float[3] { 0.1f, 0.1f, 0.1f };
-            }
-
+          
             gl.Scale(escalaX, escalaY, escalaZ);
 
 
@@ -225,8 +227,8 @@ namespace SharpGL_CG_TDM
 
             //rotate
 
-            DesenharFaces(gl, color_);
-            DesenharArestas(gl, color_);
+            DesenharFaces(gl);
+            DesenharArestas(gl);
             gl.PopMatrix();
 
             gl.PushMatrix();
@@ -238,9 +240,6 @@ namespace SharpGL_CG_TDM
             Uteis.Linha(gl, Xmax, Ymin, Zmin, Xmax, Ymax, Zmin);
             Uteis.Linha(gl, Xmax, Ymax, Zmin, Xmin, Ymax, Zmin);
 
-
-            // Fazer as outras linhas da envolvente!
-            // total 12
         }
     }
 }

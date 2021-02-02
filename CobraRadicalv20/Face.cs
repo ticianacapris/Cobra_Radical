@@ -11,27 +11,28 @@ namespace SharpGL_CG_TDM
     {
         //List<int> LVerticesFace; // {  1 2 3 }
         List<Vertice> LVerticesFace; //{V1, V2, V3}
+        List<Textura> LTextura;
 
         public Face()
         {
             LVerticesFace = new List<Vertice>();
+            LTextura = new List<Textura>();
         }
         public void Add(Vertice vv) { LVerticesFace.Add(vv); }
+
+        public void AddTexture(Textura tt) { LTextura.Add(tt); }
         public int GetNVertices() { return LVerticesFace.Count; }
         public void Desenhar(OpenGL gl)
         {
             gl.Begin(OpenGL.GL_TRIANGLES);
-            /*
-            gl.Vertex(LVerticesFace[0].GetX(), LVerticesFace[0].GetY(), LVerticesFace[0].GetZ());
-            gl.Vertex(LVerticesFace[1].GetX(), LVerticesFace[1].GetY(), LVerticesFace[1].GetZ());
-            gl.Vertex(LVerticesFace[2].GetX(), LVerticesFace[2].GetY(), LVerticesFace[2].GetZ());
-           */
 
-            foreach(Vertice V in LVerticesFace)
-                gl.Vertex(V.GetX(), V.GetY(), V.GetZ());
+            for (int i = 0; i < LVerticesFace.Count; i++)
+            {
+                gl.TexCoord(LTextura[i].GetX(), LTextura[i].GetY());
+                gl.Vertex(LVerticesFace[i].GetX(), LVerticesFace[i].GetY(), LVerticesFace[i].GetZ());
+            }
 
             gl.End();
-
         }
     }
 }

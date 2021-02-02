@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Textura.cs" />
     <Compile Include="Triangulo.cs" />
     <Compile Include="Uteis.cs" />
     <Compile Include="Vertice.cs" />

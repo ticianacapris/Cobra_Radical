@@ -41,6 +41,8 @@
             this.Btn_Sair = new System.Windows.Forms.Button();
             this.Btn_LerModelo = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.pontLabel = new System.Windows.Forms.Label();
+            this.maxPontLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -70,6 +72,8 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.maxPontLabel);
+            this.panel1.Controls.Add(this.pontLabel);
             this.panel1.Controls.Add(this.Btn_Parar);
             this.panel1.Controls.Add(this.Btn_Inverter_Escala);
             this.panel1.Controls.Add(this.Btn_Experiencias);
@@ -209,6 +213,24 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // pontLabel
+            // 
+            this.pontLabel.AutoSize = true;
+            this.pontLabel.Location = new System.Drawing.Point(15, 176);
+            this.pontLabel.Name = "pontLabel";
+            this.pontLabel.Size = new System.Drawing.Size(127, 25);
+            this.pontLabel.TabIndex = 11;
+            this.pontLabel.Text = "Pontuação: ";
+            // 
+            // maxPontLabel
+            // 
+            this.maxPontLabel.AutoSize = true;
+            this.maxPontLabel.Location = new System.Drawing.Point(191, 188);
+            this.maxPontLabel.Name = "maxPontLabel";
+            this.maxPontLabel.Size = new System.Drawing.Size(201, 25);
+            this.maxPontLabel.TabIndex = 12;
+            this.maxPontLabel.Text = "Pontuação máxima:";
+            // 
             // SharpGLForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -222,6 +244,7 @@
             this.Text = "SharpGL Form";
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -242,6 +265,8 @@
         private System.Windows.Forms.Button Btn_Experiencias;
         private System.Windows.Forms.Button Btn_Inverter_Escala;
         private System.Windows.Forms.Button Btn_Parar;
+        private System.Windows.Forms.Label maxPontLabel;
+        private System.Windows.Forms.Label pontLabel;
     }
 }
 
