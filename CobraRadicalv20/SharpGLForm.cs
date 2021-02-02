@@ -185,16 +185,16 @@ namespace SharpGL_CG_TDM
                 switch (directionHistory[directionHistory.Count - 1])
                 {
                     case 1:
-                        cobraPart.Translacao(Cobra.getX() - 1, 0, Cobra.getZ());
+                        cobraPart.Translacao(Cobra.getX() - 2, Cobra.getY(), Cobra.getZ());
                         break;
                     case 2:
-                        cobraPart.Translacao(Cobra.getX(), 0, Cobra.getZ() - 1);
+                        cobraPart.Translacao(Cobra.getX(), Cobra.getY(), Cobra.getZ() - 2);
                         break;
                     case 3:
-                        cobraPart.Translacao(Cobra.getX() + 1, 0, Cobra.getZ());
+                        cobraPart.Translacao(Cobra.getX() + 2, Cobra.getY(), Cobra.getZ());
                         break;
                     case 4:
-                        cobraPart.Translacao(Cobra.getX(), 0, Cobra.getZ() + 1);
+                        cobraPart.Translacao(Cobra.getX(), Cobra.getY(), Cobra.getZ() + 2);
                         break;
                 }
             }
