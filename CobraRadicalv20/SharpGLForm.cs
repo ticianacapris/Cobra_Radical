@@ -5,6 +5,8 @@ using System.Timers;
 using System.Windows.Forms;
 using System.Diagnostics;
 
+using System.Threading;
+
 using SharpGL.SceneGraph.Assets;
 
 namespace SharpGL_CG_TDM
@@ -287,6 +289,15 @@ namespace SharpGL_CG_TDM
                     removeFood(M.getX(), M.getZ());
                     incrementPoints();
                 }
+            }
+
+            for (int i = 1; i < LModelos.Count - 1; i++)
+            {
+                if (Cobra.Colide(LModelos[i]))
+                {
+                    MessageBox.Show("Vamos jogar mais uma vez?", "Fim do jogo", MessageBoxButtons.OK);
+                }
+
             }
 
             foreach (Modelo M in Matriz["obstaculos"].ToArray())
