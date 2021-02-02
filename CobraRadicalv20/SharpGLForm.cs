@@ -141,8 +141,12 @@ namespace SharpGL_CG_TDM
             if (currentPont > maxPont)
                 maxPont = currentPont;
 
-            //            pontLabel.Text = string.Format("Pontuação: " + currentPont);
-            //          maxPontLabel.Text = string.Format("Pontuação máxima: " + maxPont);
+            Invoke(new MethodInvoker(delegate ()
+            {
+                pontLabel.Text = string.Format("Pontuação: " + currentPont);
+                maxPontLabel.Text = string.Format("Pontuação máxima: " + maxPont);
+            }));
+
         }
 
         private void updateScreenPont(object sender, EventArgs e)
@@ -280,6 +284,8 @@ namespace SharpGL_CG_TDM
                 {
                     Console.WriteLine("aumentar cobra");
                     aumentarCobra();
+                    removeFood(M.getX(), M.getZ());
+                    incrementPoints();
                 }
             }
 
@@ -288,7 +294,6 @@ namespace SharpGL_CG_TDM
                 if (Cobra.Colide(M))
                 {
                     Console.WriteLine("perder pontos");
-                    incrementPoints();
                 }
             }
 
