@@ -117,7 +117,7 @@ namespace SharpGL_CG_TDM
             rotatetimer.Enabled = true;
 
             Matriz = new Dictionary<string, List<Modelo>>();
-            Matriz["Comida"] = new List<Modelo>();
+            Matriz["food"] = new List<Modelo>();
             Matriz["obstaculos"] = new List<Modelo>();
 
             rndNumber = new Random();
@@ -126,7 +126,7 @@ namespace SharpGL_CG_TDM
 
         public void rotateFunction(object source, ElapsedEventArgs e)
         {
-            foreach (Modelo M in Matriz["Comida"].ToArray())
+            foreach (Modelo M in Matriz["food"].ToArray())
             {
                 for (int i = 1; i <= 6; i++)
                 {
@@ -205,11 +205,11 @@ namespace SharpGL_CG_TDM
 
         public void removeFood(double coordX, double coordZ)
         {
-            foreach (Modelo M in Matriz["Comida"].ToArray())
+            foreach (Modelo M in Matriz["food"].ToArray())
             {
                 if (M.getX() == coordX && M.getZ() == coordZ)
                 {
-                    Matriz["Comida"].Remove(M);
+                    Matriz["food"].Remove(M);
                     foodMatrix[Convert.ToInt32(coordX), Convert.ToInt32(coordZ)] = 0;
                 }
             }
@@ -228,10 +228,9 @@ namespace SharpGL_CG_TDM
                 {
                     Modelo comida = new Modelo();
                     comida.LerFicheiro("..\\..\\loadModelos\\maça.obj");
-                    comida.Translacao(newValueX, 1, newValueY);
+                    comida.Translacao(newValueX, 0.5, newValueY);
                     foodMatrix[newValueX, newValueY] = 1;
-                    Matriz["Comida"].Add(comida);
-                    Console.WriteLine(Matriz["Comida"]);
+                    Matriz["food"].Add(comida);
                     foodOcupado = false;
                 }
             }
@@ -245,7 +244,7 @@ namespace SharpGL_CG_TDM
                 {
                     Modelo obstaculo = new Modelo();
                     obstaculo.LerFicheiro("..\\..\\loadModelos\\cubo.obj");
-                    obstaculo.Translacao(newValueX, 0, newValueY);
+                    obstaculo.Translacao(newValueX, 0.5, newValueY);
                     obstaclesMatrix[newValueX, newValueY] = 1;
                     Matriz["obstaculos"].Add(obstaculo);
                     obstOcupado = false;
@@ -275,7 +274,7 @@ namespace SharpGL_CG_TDM
                     break;
             }
 
-            foreach (Modelo M in Matriz["Comida"].ToArray())
+            foreach (Modelo M in Matriz["food"].ToArray())
             {
                 if (Cobra.Colide(M))
                 {
@@ -288,6 +287,7 @@ namespace SharpGL_CG_TDM
             {
                 if (Cobra.Colide(M))
                 {
+                    Console.WriteLine("perder pontos");
                     incrementPoints();
                 }
             }
@@ -516,7 +516,7 @@ namespace SharpGL_CG_TDM
                 gl.Disable(OpenGL.GL_TEXTURE_2D);
             }
 
-            foreach (Modelo M in Matriz["Comida"].ToArray())
+            foreach (Modelo M in Matriz["food"].ToArray())
             {
                 gl.Enable(OpenGL.GL_TEXTURE_2D);
                 TextArray[2].Bind(gl);
