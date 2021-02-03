@@ -260,23 +260,37 @@ namespace SharpGL_CG_TDM
 
         public void timerMovement(object source, ElapsedEventArgs e)
         {
+            Console.WriteLine("snake coords: x: " + Cobra.getX() + " , z: " + Cobra.getZ());
             switch (direcaoCobra)
             {
                 case 1:
-                    directionHistory.Add(1);
-                    Cobra.Translacao(1, 0, 0);
+                    if (Cobra.getX() < fieldSize - 2)
+                    {
+                        Cobra.Translacao(1, 0, 0);
+                        directionHistory.Add(1);
+                    }
+
                     break;
                 case 2:
-                    Cobra.Translacao(0, 0, 1);
-                    directionHistory.Add(2);
+                    if (Cobra.getZ() < fieldSize - 2)
+                    {
+                        Cobra.Translacao(0, 0, 1);
+                        directionHistory.Add(2);
+                    }
                     break;
                 case 3:
-                    Cobra.Translacao(-1, 0, 0);
-                    directionHistory.Add(3);
+                    if (Cobra.getX() > 0)
+                    {
+                        Cobra.Translacao(-1, 0, 0);
+                        directionHistory.Add(3);
+                    }
                     break;
                 case 4:
-                    Cobra.Translacao(0, 0, -1);
-                    directionHistory.Add(4);
+                    if (Cobra.getZ() > 0)
+                    {
+                        Cobra.Translacao(0, 0, -1);
+                        directionHistory.Add(4);
+                    }
                     break;
             }
 
