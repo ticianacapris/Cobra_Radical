@@ -230,7 +230,7 @@ namespace SharpGL_CG_TDM
                 int newValueX = rndNumber.Next(1, fieldSize);
                 int newValueY = rndNumber.Next(1, fieldSize);
 
-                if (foodMatrix[newValueX, newValueY] != 1)
+                if (foodMatrix[newValueX, newValueY] != 1 && obstaclesMatrix[newValueX, newValueY] != 1)
                 {
                     Modelo comida = new Modelo();
                     comida.LerFicheiro("..\\..\\loadModelos\\maça.obj");
@@ -246,7 +246,7 @@ namespace SharpGL_CG_TDM
                 int newValueX = rndNumber.Next(1, fieldSize);
                 int newValueY = rndNumber.Next(1, fieldSize);
 
-                if (obstaclesMatrix[newValueX, newValueY] != 1)
+                if (obstaclesMatrix[newValueX, newValueY] != 1 && foodMatrix[newValueX, newValueY] != 1)
                 {
                     Modelo obstaculo = new Modelo();
                     obstaculo.LerFicheiro("..\\..\\loadModelos\\cubo.obj");
