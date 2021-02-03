@@ -1,0 +1,40 @@
+C:\Users\pedro\Documents\GitHub\Cobra_Radical\Snake\bin\Debug\Cobra_Radical.exe.config
+C:\Users\pedro\Documents\GitHub\Cobra_Radical\Snake\bin\Debug\Cobra_Radical.exe
+C:\Users\pedro\Documents\GitHub\Cobra_Radical\Snake\bin\Debug\Cobra_Radical.pdb
+C:\Users\pedro\Documents\GitHub\Cobra_Radical\Snake\obj\Debug\Cobra_Radical.csprojAssemblyReference.cache
+C:\Users\pedro\Documents\GitHub\Cobra_Radical\Snake\obj\Debug\Cobra_Radical.Properties.Resources.resources
+C:\Users\pedro\Documents\GitHub\Cobra_Radical\Snake\obj\Debug\Cobra_Radical.Window.resources
+C:\Users\pedro\Documents\GitHub\Cobra_Radical\Snake\obj\Debug\Cobra_Radical.csproj.GenerateResource.cache
+C:\Users\pedro\Documents\GitHub\Cobra_Radical\Snake\obj\Debug\Cobra_Radical.csproj.CoreCompileInputs.cache
+C:\Users\pedro\Documents\GitHub\Cobra_Radical\Snake\obj\Debug\Cobra_Radical.exe
+C:\Users\pedro\Documents\GitHub\Cobra_Radical\Snake\obj\Debug\Cobra_Radical.pdb
+C:\Users\pedro\Documents\GitHub\Cobra_Game\Cobra_Radical\Cobra_Radical\bin\Debug\Cobra_Radical.exe.config
+C:\Users\pedro\Documents\GitHub\Cobra_Game\Cobra_Radical\Cobra_Radical\bin\Debug\Cobra_Radical.exe
+C:\Users\pedro\Documents\GitHub\Cobra_Game\Cobra_Radical\Cobra_Radical\bin\Debug\Cobra_Radical.pdb
+C:\Users\pedro\Documents\GitHub\Cobra_Game\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.csprojAssemblyReference.cache
+C:\Users\pedro\Documents\GitHub\Cobra_Game\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.Properties.Resources.resources
+C:\Users\pedro\Documents\GitHub\Cobra_Game\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.Window.resources
+C:\Users\pedro\Documents\GitHub\Cobra_Game\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.csproj.GenerateResource.cache
+C:\Users\pedro\Documents\GitHub\Cobra_Game\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.csproj.CoreCompileInputs.cache
+C:\Users\pedro\Documents\GitHub\Cobra_Game\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.exe
+C:\Users\pedro\Documents\GitHub\Cobra_Game\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.pdb
+\\vmware-host\Shared Folders\Desktop\Cobra_Radical\Cobra_Radical\bin\Debug\Cobra_Radical.exe.config
+\\vmware-host\Shared Folders\Desktop\Cobra_Radical\Cobra_Radical\bin\Debug\Cobra_Radical.exe
+\\vmware-host\Shared Folders\Desktop\Cobra_Radical\Cobra_Radical\bin\Debug\Cobra_Radical.pdb
+\\vmware-host\Shared Folders\Desktop\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.csprojAssemblyReference.cache
+\\vmware-host\Shared Folders\Desktop\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.Properties.Resources.resources
+\\vmware-host\Shared Folders\Desktop\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.Window.resources
+\\vmware-host\Shared Folders\Desktop\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.csproj.GenerateResource.cache
+\\vmware-host\Shared Folders\Desktop\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.csproj.CoreCompileInputs.cache
+\\vmware-host\Shared Folders\Desktop\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.exe
+\\vmware-host\Shared Folders\Desktop\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.pdb
+C:\Users\tcapr\OneDrive - ESTGV\Documentos\GitHub\Cobra_Radical\Cobra_Radical\bin\Debug\Cobra_Radical.exe.config
+C:\Users\tcapr\OneDrive - ESTGV\Documentos\GitHub\Cobra_Radical\Cobra_Radical\bin\Debug\Cobra_Radical.exe
+C:\Users\tcapr\OneDrive - ESTGV\Documentos\GitHub\Cobra_Radical\Cobra_Radical\bin\Debug\Cobra_Radical.pdb
+C:\Users\tcapr\OneDrive - ESTGV\Documentos\GitHub\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.csprojAssemblyReference.cache
+C:\Users\tcapr\OneDrive - ESTGV\Documentos\GitHub\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.Properties.Resources.resources
+C:\Users\tcapr\OneDrive - ESTGV\Documentos\GitHub\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.Window.resources
+C:\Users\tcapr\OneDrive - ESTGV\Documentos\GitHub\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.csproj.GenerateResource.cache
+C:\Users\tcapr\OneDrive - ESTGV\Documentos\GitHub\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.csproj.CoreCompileInputs.cache
+C:\Users\tcapr\OneDrive - ESTGV\Documentos\GitHub\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.exe
+C:\Users\tcapr\OneDrive - ESTGV\Documentos\GitHub\Cobra_Radical\Cobra_Radical\obj\Debug\Cobra_Radical.pdb
