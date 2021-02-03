@@ -91,6 +91,7 @@ namespace SharpGL_CG_TDM
             Obstaculos = new List<Modelo>();
 
             Cobra.LerFicheiro("..\\..\\loadModelos\\cubo.obj");
+            Cobra.Translacao(0, 0.5f, 0);
 
             fieldSize = 100;
 
@@ -161,8 +162,43 @@ namespace SharpGL_CG_TDM
 
             if (currentPont < 0)
             {
-                MessageBox.Show("Vamos jogar mais uma vez?", "Fim do jogo", MessageBoxButtons.OK);
+                DialogResult resultado = MessageBox.Show("Vamos jogar mais uma vez?", "Fim do jogo", MessageBoxButtons.OK);
+                if (resultado == DialogResult.OK)
+                    resetGame();
             }
+        }
+
+        public void resetGame()
+        {
+            Cobra = new Modelo();
+            cobraLength = 1;
+            CobraFull = new List<Modelo>();
+            directionHistory = new List<int>();
+            directionHistory.Add(1);
+
+            direcaoCobra = 1;   //1: X+  2: Z+  3: X-  4: Z-
+
+            LModelos = new List<Modelo>();
+            Comida = new List<Modelo>();
+            Obstaculos = new List<Modelo>();
+
+            Cobra.LerFicheiro("..\\..\\loadModelos\\cubo.obj");
+
+            Cobra.Translacao(0, 0.5f, 0);
+
+            fieldSize = 100;
+
+            currentPont = 0;
+
+            Matriz = new Dictionary<string, List<Modelo>>();
+            Matriz["food"] = new List<Modelo>();
+            Matriz["obstaculos"] = new List<Modelo>();
+
+            Invoke(new MethodInvoker(delegate ()
+            {
+                pontLabel.Text = string.Format("Pontuação: " + currentPont);
+                maxPontLabel.Text = string.Format("Pontuação máxima: " + maxPont);
+            }));
         }
 
         private void updateScreenPont(object sender, EventArgs e)
@@ -177,7 +213,6 @@ namespace SharpGL_CG_TDM
             cobraPart.LerFicheiro("..\\..\\loadModelos\\snakeBody.obj");
             if (LModelos.Count > 0)
             {
-                Console.WriteLine("coordenadas do ultimo: x: " + LModelos[LModelos.Count - 1].getX() + " z: " + LModelos[LModelos.Count - 1].getZ());
                 switch (directionHistory[directionHistory.Count - 1 - LModelos.Count - 1])
                 {
                     case 1:
@@ -283,7 +318,6 @@ namespace SharpGL_CG_TDM
 
         public void timerMovement(object source, ElapsedEventArgs e)
         {
-            Console.WriteLine("snake coords: x: " + Cobra.getX() + " , z: " + Cobra.getZ());
             switch (direcaoCobra)
             {
                 case 1:
@@ -292,7 +326,6 @@ namespace SharpGL_CG_TDM
                         Cobra.Translacao(1, 0, 0);
                         directionHistory.Add(1);
                     }
-
                     break;
                 case 2:
                     if (Cobra.getZ() < fieldSize - 2)
@@ -321,28 +354,26 @@ namespace SharpGL_CG_TDM
             {
                 if (Cobra.Colide(M))
                 {
-                    Console.WriteLine("aumentar cobra");
                     aumentarCobra();
                     removeFood(M.getX(), M.getZ());
                     incrementPoints();
                 }
             }
 
-            for (int i = 1; i < LModelos.Count - 1; i++)
+            for (int i = 0; i < LModelos.Count - 1; i++)
             {
                 if (Cobra.Colide(LModelos[i]))
                 {
-                    Console.WriteLine("Colisao com o corpo");
-                    MessageBox.Show("Vamos jogar mais uma vez?", "Fim do jogo", MessageBoxButtons.OK);
+                    DialogResult resultado = MessageBox.Show("Vamos jogar mais uma vez?", "Fim do jogo", MessageBoxButtons.OK);
+                    if (resultado == DialogResult.OK)
+                        resetGame();
                 }
-
             }
 
             foreach (Modelo M in Matriz["obstaculos"].ToArray())
             {
                 if (Cobra.Colide(M))
                 {
-                    Console.WriteLine("colisao caixa");
                     removeObstacle(M.getX(), M.getZ());
                     decrementPoints();
                 }
@@ -498,6 +529,11 @@ namespace SharpGL_CG_TDM
             gl.End();
         }
 
+        private void maxPontLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void DesenharEixos(OpenGL gl, float TAM = 5.0f)
         {
             // gl.Sphere()
@@ -542,18 +578,9 @@ namespace SharpGL_CG_TDM
                 gl.LookAt(Cobra.getX(), Cobra.getY(), Cobra.getZ(),
                    0, 0, 0,
                  0, 1, 0);
-
-
             }
-            /* else
-             {
-                 gl.LookAt(-4, 4, -4,
-                     2, 0, 2,
-                     -4, 6, -4);
-             //}*/
 
             DesenharFundo(gl);
-
 
             gl.Enable(OpenGL.GL_TEXTURE_2D);
             TextArray[0].Bind(gl);
@@ -616,163 +643,34 @@ namespace SharpGL_CG_TDM
             Console.WriteLine("Passei em openGLControl_Resized");
 
             OpenGL gl = openGLControl.OpenGL;
+
             //  Set the projection matrix.
             gl.MatrixMode(OpenGL.GL_PROJECTION);
             //  Load the identity.
             gl.LoadIdentity();
             //  Create a perspective transformation.
-            gl.Perspective(75.0f, (double)Width / (double)Height, 0.01, 100.0);
+            gl.Perspective(70.0f, (double)Width / (double)Height, 0.01, 1000.0);
             //  Use the 'look at' helper function to position and aim the camera.
 
             if (Cobra != null)
             {
-                Console.WriteLine("coordenadas: " + Cobra.getX());
-                gl.LookAt(Cobra.getX(), Cobra.getY(), Cobra.getZ(), 2, 0, 2, -4, 6, -4);
+                gl.LookAt(Cobra.getX(), Cobra.getY(), Cobra.getZ(),
+                 Cobra.getX(), Cobra.getY() + 2, Cobra.getZ(),
+                0, 1, 0);
             }
             else
             {
+                //gl.LookAt(-4, 4, -4,
+                //    2, 0, 2,
+                //    -4, 6, -4);
                 gl.LookAt(-4, 4, -4,
                     2, 0, 2,
-                    -4, 6, -4);
+                    0, 1, 0);
             }
             //  Set the modelview matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
         }
         // Method associated to initial draw test 
 
-        private float rotation = 0.0f;
-
-        private void Btn_TX_Mais_Click(object sender, EventArgs e)
-        {
-            //  TX += 1.0;
-
-            Cobra.Translacao(1, 0, 0);
-        }
-
-        private void Btn_TX_Menos_Click(object sender, EventArgs e)
-        {
-
-            Cobra.Translacao(-1, 0, 0);
-
-            //TX -= 1.0;
-            /*if (Jogador != null)
-                Jogador.Translacao(0.1, 0.0, 0.0);*/
-        }
-
-        private void Btn_Aumentar_Click(object sender, EventArgs e)
-        {
-            // Escala += 0.2;
-            OpenGL gl = openGLControl.OpenGL;
-
-
-            Cobra.setScale(gl, 2f, 0f, 0f);
-        }
-
-        private void Btn_Diminuir_Click(object sender, EventArgs e)
-        {
-            // Escala -= 0.2;
-            OpenGL gl = openGLControl.OpenGL;
-
-            Cobra.setScale(gl, -2f, 0f, 0f);
-        }
-
-        private void Btn_Experiencias_Click(object sender, EventArgs e)
-        {
-            /*
-            int X = -10;
-            Console.WriteLine("X = " + X);
-            X = -X;
-            Console.WriteLine("X = " + X);
-            */
-
-            string STR = "1.23";
-
-            /*
-            STR = STR.Replace('.', ',');
-            double Y = Convert.ToDouble(STR);
-            */
-            double Y = Convert.ToDouble(STR, System.Globalization.CultureInfo.InvariantCulture);
-            Console.WriteLine("Y = " + Y);
-
-        }
-
-        private void Btn_Inverter_Escala_Click(object sender, EventArgs e)
-        {
-            Incremento_Escala = -Incremento_Escala;
-
-        }
-
-        private void Btn_Parar_Click(object sender, EventArgs e)
-        {
-            // Incremento_Escala = 0;
-            // Sentido = 0;
-            Em_Movimento = !Em_Movimento;
-            if (Em_Movimento)
-                Btn_Parar.Text = "PARAR";
-            else
-                Btn_Parar.Text = "ANDAR";
-
-
-            timer.Stop();
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            // Modelo Jogador = new Modelo();
-            //foreach (Modelo M in LModelos)
-            //    if (Jogador.Colide(M))
-            //    {
-
-            //    }
-        }
-
-        private void Btn_Inverter_Click(object sender, EventArgs e)
-        {
-
-            Console.WriteLine("invertersentifo");
-            Sentido = -Sentido;
-
-            //Cobra.setScale(0.1, 0.1, 0.1, gl);
-
-        }
-
-        private void Btn_Sair_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void Btn_LerModelo_Click(object sender, EventArgs e)
-        {
-            OpenGL gl = openGLControl.OpenGL;
-
-            // Cobra.LerFicheiro("C:\\Users\\pedro\\Documents\\GitHub\\Cobra_Radical\\CobraRadicalv20\\loadModelos\\cobraStartModel.obj");
-
-            Cobra.LerFicheiro("..\\..\\loadModelos\\cobraStartModel.obj");
-
-            LModelos.Add(Cobra);
-
-            //  C:\Users\pedro\Documents\GitHub\Cobra_Radical\CobraRadicalv20\loadModelos\cobraStartModel.obj
-            //  C:\Users\pedro\Documents\GitHub\Cobra_Radical\CobraRadicalv20\bin\Debug\SharpGL_CG_TDM.exe
-
-            //Mod.LerFicheiro("..\\..\\..\\Modelos_OBJ\\ola.obj");
-            //Modelo X = new Modelo();
-            //X.LerFicheiro("..\\..\\..\\Modelos_OBJ\\Vaca.obj");
-            //X.LerFicheiro("..\\..\\..\\Modelos_OBJ\\ola.obj");
-            //X.Mostrar();
-            //LModelos.Add(X);
-            //X.Mostrar();
-            //Jogador = new Modelo();
-            //Jogador.LerFicheiro("..\\..\\..\\Modelos_OBJ\\ola.obj");
-            //LModelos.Add(Jogador);
-            /*
-            Modelo A = new Modelo();
-            Modelo B = new Modelo();
-            if (A.Colide(B))
-            {
-
-            }
-            */
-        }
     }
 }

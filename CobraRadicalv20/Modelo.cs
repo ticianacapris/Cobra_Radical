@@ -56,7 +56,6 @@ namespace SharpGL_CG_TDM
             escalaY += novaEscalaY;
             escalaZ += novaEscalaZ;
 
-
         }
 
         public void Translacao(double _tx, double _ty, double _tz)
@@ -179,12 +178,12 @@ namespace SharpGL_CG_TDM
         //-------------------------------
         public bool Colide(Modelo M2)
         {
-            if (M2.Xmin > Xmax) return false;
-            if (M2.Xmax < Xmin) return false;
-            if (M2.Ymin > Ymax) return false;
-            if (M2.Ymax < Ymin) return false;
-            if (M2.Zmin > Zmax) return false;
-            if (M2.Zmax < Zmin) return false;
+            if (M2.Xmin >= Xmax) return false;
+            if (M2.Xmax <= Xmin) return false;
+            if (M2.Ymin >= Ymax) return false;
+            if (M2.Ymax <= Ymin) return false;
+            if (M2.Zmin >= Zmax) return false;
+            if (M2.Zmax <= Zmin) return false;
 
             return true;
         }
@@ -213,7 +212,6 @@ namespace SharpGL_CG_TDM
 
         public void Desenhar(OpenGL gl)
         {
-          
             gl.Scale(escalaX, escalaY, escalaZ);
 
             DesenharEnvolvente(gl);
@@ -226,11 +224,9 @@ namespace SharpGL_CG_TDM
 
             gl.PushMatrix();
         }
-        
+
         public void DesenharEnvolvente(OpenGL gl)
         {
-
-
             //Variaçoes X
             Uteis.Linha(gl, Xmin, Ymin, Zmin, Xmax, Ymin, Zmin);
             Uteis.Linha(gl, Xmax, Ymax, Zmin, Xmin, Ymax, Zmin);
@@ -248,19 +244,6 @@ namespace SharpGL_CG_TDM
             Uteis.Linha(gl, Xmin, Ymax, Zmax, Xmin, Ymax, Zmin);
             Uteis.Linha(gl, Xmax, Ymin, Zmin, Xmax, Ymin, Zmax);
             Uteis.Linha(gl, Xmax, Ymax, Zmin, Xmax, Ymax, Zmax);
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
     }
 }
