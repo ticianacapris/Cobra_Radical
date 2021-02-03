@@ -186,7 +186,6 @@ namespace SharpGL_CG_TDM
             if (M2.Zmin > Zmax) return false;
             if (M2.Zmax < Zmin) return false;
 
-
             return true;
         }
         //-------------------------------
@@ -230,9 +229,37 @@ namespace SharpGL_CG_TDM
         
         public void DesenharEnvolvente(OpenGL gl)
         {
+
+
+            //Variaçoes X
             Uteis.Linha(gl, Xmin, Ymin, Zmin, Xmax, Ymin, Zmin);
-            Uteis.Linha(gl, Xmax, Ymin, Zmin, Xmax, Ymax, Zmin);
             Uteis.Linha(gl, Xmax, Ymax, Zmin, Xmin, Ymax, Zmin);
+            Uteis.Linha(gl, Xmin, Ymin, Zmax, Xmax, Ymin, Zmax);
+            Uteis.Linha(gl, Xmin, Ymax, Zmax, Xmax, Ymax, Zmax);
+
+            //Variaçoes Y
+            Uteis.Linha(gl, Xmax, Ymin, Zmax, Xmax, Ymax, Zmax);
+            Uteis.Linha(gl, Xmin, Ymax, Zmin, Xmin, Ymin, Zmin);
+            Uteis.Linha(gl, Xmin, Ymax, Zmax, Xmin, Ymin, Zmax);
+            Uteis.Linha(gl, Xmax, Ymax, Zmin, Xmax, Ymin, Zmin);
+
+            //Variaçoes Z
+            Uteis.Linha(gl, Xmin, Ymin, Zmin, Xmin, Ymin, Zmax);
+            Uteis.Linha(gl, Xmin, Ymax, Zmax, Xmin, Ymax, Zmin);
+            Uteis.Linha(gl, Xmax, Ymin, Zmin, Xmax, Ymin, Zmax);
+            Uteis.Linha(gl, Xmax, Ymax, Zmin, Xmax, Ymax, Zmax);
+
+
+
+
+
+
+
+
+
+
+
+
 
         }
     }
