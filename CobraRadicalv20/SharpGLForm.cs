@@ -104,18 +104,18 @@ namespace SharpGL_CG_TDM
 
             timer = new System.Timers.Timer();
             timer.Elapsed += new ElapsedEventHandler(timerMovement);
-            timer.Interval = 60;
+            timer.Interval = 100;
             timer.Enabled = true;
 
             extrasTimer = new System.Timers.Timer();
             extrasTimer.Elapsed += new ElapsedEventHandler(randomPosition);
-            extrasTimer.Interval = 2000;
+            extrasTimer.Interval = 6000;
             extrasTimer.Enabled = true;
             extrasTimer.AutoReset = true;
 
             rotatetimer = new System.Timers.Timer();
             rotatetimer.Elapsed += new ElapsedEventHandler(rotateFunction);
-            rotatetimer.Interval = 60;
+            rotatetimer.Interval = 100;
             rotatetimer.Enabled = true;
 
             Matriz = new Dictionary<string, List<Modelo>>();
@@ -148,15 +148,27 @@ namespace SharpGL_CG_TDM
                 pontLabel.Text = string.Format("Pontuação: " + currentPont);
                 maxPontLabel.Text = string.Format("Pontuação máxima: " + maxPont);
             }));
+        }
 
+        public void decrementPoints()
+        {
+            currentPont -= 30;
+
+            Invoke(new MethodInvoker(delegate ()
+            {
+                pontLabel.Text = string.Format("Pontuação: " + currentPont);
+            }));
+
+            if (currentPont < 0)
+            {
+                MessageBox.Show("Vamos jogar mais uma vez?", "Fim do jogo", MessageBoxButtons.OK);
+            }
         }
 
         private void updateScreenPont(object sender, EventArgs e)
         {
-
             pontLabel.Text = string.Format("Pontuação: " + currentPont);
             maxPontLabel.Text = string.Format("Pontuação máxima: " + maxPont);
-
         }
 
         public void aumentarCobra()
@@ -165,20 +177,20 @@ namespace SharpGL_CG_TDM
             cobraPart.LerFicheiro("..\\..\\loadModelos\\snakeBody.obj");
             if (LModelos.Count > 0)
             {
-
-                switch (directionHistory[directionHistory.Count - 1 - LModelos.Count])
+                Console.WriteLine("coordenadas do ultimo: x: " + LModelos[LModelos.Count - 1].getX() + " z: " + LModelos[LModelos.Count - 1].getZ());
+                switch (directionHistory[directionHistory.Count - 1 - LModelos.Count - 1])
                 {
                     case 1:
-                        cobraPart.Translacao(LModelos[LModelos.Count - 1].getX() - 1, 0, LModelos[LModelos.Count - 1].getZ());
+                        cobraPart.Translacao(LModelos[LModelos.Count - 1].getX() - 1, LModelos[LModelos.Count - 1].getY(), LModelos[LModelos.Count - 1].getZ());
                         break;
                     case 2:
-                        cobraPart.Translacao(LModelos[LModelos.Count - 1].getX(), 0, LModelos[LModelos.Count - 1].getZ() - 1);
+                        cobraPart.Translacao(LModelos[LModelos.Count - 1].getX(), LModelos[LModelos.Count - 1].getY(), LModelos[LModelos.Count - 1].getZ() - 1);
                         break;
                     case 3:
-                        cobraPart.Translacao(LModelos[LModelos.Count - 1].getX() + 1, 0, LModelos[LModelos.Count - 1].getZ());
+                        cobraPart.Translacao(LModelos[LModelos.Count - 1].getX() + 1, LModelos[LModelos.Count - 1].getY(), LModelos[LModelos.Count - 1].getZ());
                         break;
                     case 4:
-                        cobraPart.Translacao(LModelos[LModelos.Count - 1].getX(), 0, LModelos[LModelos.Count - 1].getZ() + 1);
+                        cobraPart.Translacao(LModelos[LModelos.Count - 1].getX(), LModelos[LModelos.Count - 1].getY(), LModelos[LModelos.Count - 1].getZ() + 1);
                         break;
                 }
             }
@@ -217,6 +229,17 @@ namespace SharpGL_CG_TDM
                 {
                     Matriz["food"].Remove(M);
                     foodMatrix[Convert.ToInt32(coordX), Convert.ToInt32(coordZ)] = 0;
+                }
+            }
+        }
+        public void removeObstacle(double coordX, double coordZ)
+        {
+            foreach (Modelo M in Matriz["obstaculos"].ToArray())
+            {
+                if (M.getX() == coordX && M.getZ() == coordZ)
+                {
+                    Matriz["obstaculos"].Remove(M);
+                    obstaclesMatrix[Convert.ToInt32(coordX), Convert.ToInt32(coordZ)] = 0;
                 }
             }
         }
@@ -309,6 +332,7 @@ namespace SharpGL_CG_TDM
             {
                 if (Cobra.Colide(LModelos[i]))
                 {
+                    Console.WriteLine("Colisao com o corpo");
                     MessageBox.Show("Vamos jogar mais uma vez?", "Fim do jogo", MessageBoxButtons.OK);
                 }
 
@@ -318,7 +342,9 @@ namespace SharpGL_CG_TDM
             {
                 if (Cobra.Colide(M))
                 {
-                    Console.WriteLine("perder pontos");
+                    Console.WriteLine("colisao caixa");
+                    removeObstacle(M.getX(), M.getZ());
+                    decrementPoints();
                 }
             }
 
@@ -595,7 +621,7 @@ namespace SharpGL_CG_TDM
             //  Load the identity.
             gl.LoadIdentity();
             //  Create a perspective transformation.
-            gl.Perspective(60.0f, (double)Width / (double)Height, 0.01, 100.0);
+            gl.Perspective(75.0f, (double)Width / (double)Height, 0.01, 100.0);
             //  Use the 'look at' helper function to position and aim the camera.
 
             if (Cobra != null)
